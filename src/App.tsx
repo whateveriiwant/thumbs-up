@@ -1,8 +1,8 @@
 import bgImage from "./assets/default-bg.jpg";
 import thumbnail from "./assets/thumbnail.png";
 import Reset from "./assets/reset.svg?react";
-import copy from "./assets/copy.svg";
-import download from "./assets/download.svg";
+import Copy from "./assets/copy.svg?react";
+import Download from "./assets/download.svg?react";
 
 const App = () => {
   return (
@@ -36,15 +36,18 @@ const App = () => {
               />
             </div>
             <div className="flex flex-row items-center">
-              <img
-                src={copy}
-                alt="copy"
-                className="mr-1 h-7 hover:cursor-pointer hover:fill-black"
+              <Copy
+                width="1.75rem"
+                height="1.75rem"
+                fill="#A9A9A9"
+                className="ml-2 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-black"
               />
-              <img
-                src={download}
-                alt="download"
-                className="h-7 hover:cursor-pointer"
+
+              <Download
+                width="1.75rem"
+                height="1.75rem"
+                fill="#A9A9A9"
+                className="ml-2 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-black"
               />
             </div>
           </div>
