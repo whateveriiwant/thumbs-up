@@ -2,15 +2,15 @@ import Velog from "../../assets/velog.svg?react";
 import Youtube from "../../assets/youtube.svg?react";
 
 const Ratio = (props: any) => {
-  const ratioList = {
-    1: [768, 402.094], // Velog
-    2: [400, 400], // 1:1
-    3: [533.3333, 400], // 4:3
-    4: [640, 340], // Youtube
-  };
+  // const ratioList = {
+  //   1: [768, 402.094], // Velog
+  //   2: [400, 400], // 1:1
+  //   3: [533.3333, 400], // 4:3
+  //   4: [640, 340], // Youtube
+  // };
 
-  let width = props.width;
-  let height = props.height;
+  // let width = props.width;
+  // let height = props.height;
 
   return (
     <div className="flex flex-row items-center justify-between mt-4 w-85">
