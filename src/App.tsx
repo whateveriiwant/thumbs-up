@@ -7,37 +7,44 @@ import Scale from "./assets/scale.svg?react";
 import Velog from "./assets/velog.svg?react";
 import Youtube from "./assets/youtube.svg?react";
 import Layout from "./assets/layout.svg?react";
+import BackGround from "./assets/bg.svg?react";
+import ResetBG from "./assets/resetBg.svg?react";
+import Text from "./assets/text.svg?react";
+import Bold from "./assets/bold.svg?react";
+import Underline from "./assets/underline.svg?react";
+import AlignLeft from "./assets/alignLeft.svg?react";
+import Palette from "./assets/palette.svg?react";
 
 const App = () => {
   return (
     <div className="relative w-full h-screen">
       <div
-        className="absolute inset-0 h-full bg-cover w-ful -z-10 blur-xs scale-200"
+        className="absolute inset-0 h-full bg-cover w-full -z-10 blur-xs scale-200"
         style={{ backgroundImage: `url(${bgImage})` }}
       />
       <div className="flex items-center justify-center">
-        <div className="bg-white px-20 pt-11 mt-10 w-[55rem] h-[60rem] z-10 flex justify-start rounded-[3.5rem] flex-col">
-          <img src={thumbnail} alt="thumbnail" className="h-[27rem]" />{" "}
+        <div className="bg-white px-20 pt-11 mt-10 w-[55rem] h-[70rem] z-10 flex justify-start rounded-[3.5rem] flex-col">
+          <img src={thumbnail} alt="thumbnail" className="h-[27rem]" />
           {/* Thumbnail */}
           <div className="flex flex-row items-center justify-between mt-3">
             <div className="flex flex-row items-center">
               {/* 사이즈 입력 */}
-              <p className="text-xl text-[#A9A9A9] font-light mr-2">사이즈</p>
+              <p className="text-xl text-[#D9D9D9] font-light mr-2">사이즈</p>
               <input
                 type="text"
                 alt="width"
-                className="focus:outline-none px-0.5 py-0.5 bg-white border border-[#A9A9A9] w-14 h-7 rounded-md text-center"
+                className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-0.5 py-0.5 bg-white border border-[#D9D9D9] w-14 h-7 rounded-md text-center"
               />
-              <p className="text-md text-[#A9A9A9] font-light mx-1">X</p>
+              <p className="text-md text-[#D9D9D9] font-light mx-1">X</p>
               <input
                 type="text"
-                alt="width"
-                className="focus:outline-none px-0.5 py-0.5 bg-white border border-[#A9A9A9] w-14 h-7 rounded-md text-center"
+                alt="height"
+                className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-0.5 py-0.5 bg-white border border-[#D9D9D9] w-14 h-7 rounded-md text-center"
               />
               <Reset
                 width="1.75rem"
                 height="1.75rem"
-                fill="#A9A9A9"
+                fill="#D9D9D9"
                 className="ml-2 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-black"
               />
             </div>
@@ -68,28 +75,83 @@ const App = () => {
               <div className="flex flex-row items-center justify-between mt-4 w-85">
                 <div className="flex flex-col items-center justify-center w-20 h-20 bg-[#F2F2F2] rounded-xl hover:cursor-pointer hover:bg-[#F1F3FF] transition-colors duration-200">
                   <Velog width="2rem" height="2rem" />
-                  <p className="text-lg text-black">Velog</p>
+                  <p className="text-lg text-black font-light">Velog</p>
                 </div>
                 <div className="flex flex-col items-center justify-center w-20 h-20 bg-[#F2F2F2] rounded-xl hover:cursor-pointer hover:bg-[#F1F3FF] transition-colors duration-200">
-                  <p className="text-lg text-black">1:1</p>
+                  <p className="text-lg text-black font-light">1:1</p>
                 </div>
                 <div className="flex flex-col items-center justify-center w-20 h-20 bg-[#F2F2F2] rounded-xl hover:cursor-pointer hover:bg-[#F1F3FF] transition-colors duration-200">
-                  <p className="text-lg text-black">4:3</p>
+                  <p className="text-lg text-black font-light">4:3</p>
                 </div>
                 <div className="flex flex-col items-center justify-center w-20 h-20 bg-[#F2F2F2] rounded-xl hover:cursor-pointer hover:bg-[#F1F3FF] transition-colors duration-200">
                   <Youtube width="2rem" height="2rem" />
-                  <p className="text-lg text-black">16:9</p>
+                  <p className="text-lg text-black font-light">16:9</p>
                 </div>
               </div>
             </div>
-            <div className="flex flex-col items-start">
+            <div className="flex flex-col items-start ml-6">
               {/*레이아웃 */}
               <div className="flex flex-row items-center">
                 <Layout width="2rem" height="2rem" />
-                <p className="ml-2 text-2xl font-semibold">레이아웃</p>
+                <p className="ml-1 text-2xl font-semibold">레이아웃</p>
               </div>
               <div className="flex flex-row items-center px-3 bg-[#F2F2F2] rounded-xl w-[17rem] h-12 mt-4">
-                <p className="text-xl">제목 + 부제목 + 소제목</p>
+                <p className="text-xl font-light">제목 + 부제목 + 소제목</p>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-row items-start mt-20 justify-between">
+            <div className="flex flex-col items-start justify-between">
+              <div className="flex flex-row items-start -ml-1">
+                <BackGround width="2.4rem" height="2.4rem" />
+                <p className="ml-1 text-2xl font-semibold">배경</p>
+              </div>
+              <div className="flex flex-row place-items-center mt-3">
+                <div className="flex flex-row items-center px-3 bg-[#F2F2F2] rounded-xl w-[13rem] h-12">
+                  <p className="text-xl font-light">랜덤 배경 이미지</p>
+                </div>
+                <ResetBG
+                  width="2rem"
+                  height="2rem"
+                  fill="#A9A9A9"
+                  className="ml-2 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-black"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col items-start">
+              <div className="flex flex-row justify-center items-center">
+                <Text width="2rem" height="2rem" />
+                <p className="ml-2 text-2xl font-semibold">텍스트</p>
+              </div>
+              <div className="flex flex-row items-center mt-3">
+                <div className="flex flex-row items-center px-3 bg-[#F2F2F2] rounded-xl w-[12.5rem] h-12">
+                  <p className="text-xl font-light">Pretendard</p>
+                </div>
+                <input
+                  type="number"
+                  max={99}
+                  onInput={(e) => {
+                    const input = e.target as HTMLInputElement;
+                    if (input.value.length > 2) {
+                      input.value = input.value.slice(0, 2);
+                    }
+                  }}
+                  className="w-[4rem] h-12 ml-2 focus:outline-none px-2 text-xl font-light text-center bg-white border border-[#D9D9D9] rounded-lg"
+                />
+              </div>
+              <div className="flex flex-row mt-3 justify-between w-[12.5rem]">
+                <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg">
+                  <Bold width="1.8rem" height="1.8rem" />
+                </div>
+                <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg">
+                  <Underline width="1.8rem" height="1.8rem" />
+                </div>
+                <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg">
+                  <AlignLeft width="1.8rem" height="1.8rem" />
+                </div>
+                <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg">
+                  <Palette width="1.8rem" height="1.8rem" />
+                </div>
               </div>
             </div>
           </div>
