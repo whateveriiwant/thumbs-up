@@ -4,8 +4,7 @@ import Reset from "./assets/reset.svg?react";
 import Copy from "./assets/copy.svg?react";
 import Download from "./assets/download.svg?react";
 import Scale from "./assets/scale.svg?react";
-import Velog from "./assets/velog.svg?react";
-import Youtube from "./assets/youtube.svg?react";
+
 import Layout from "./assets/layout.svg?react";
 import BackGround from "./assets/bg.svg?react";
 import ResetBG from "./assets/resetBg.svg?react";
@@ -17,6 +16,7 @@ import Palette from "./assets/palette.svg?react";
 import GithubFooter from "./assets/footer/githubFooter.svg?react";
 import LinkedInFooter from "./assets/footer/linkedinFooter.svg?react";
 import VelogFooter from "./assets/footer/velogFooter.svg?react";
+import Ratio from "./components/ratio/Ratio";
 
 const App = () => {
   return (
@@ -75,22 +75,8 @@ const App = () => {
                 <Scale width="2rem" height="2rem" />
                 <p className="ml-2 text-2xl font-semibold">비율</p>
               </div>
-              <div className="flex flex-row items-center justify-between mt-4 w-85">
-                <div className="flex flex-col items-center justify-center w-20 h-20 bg-[#F2F2F2] rounded-xl hover:cursor-pointer hover:bg-[#F1F3FF] transition-colors duration-200">
-                  <Velog width="2rem" height="2rem" />
-                  <p className="text-lg text-black font-light">Velog</p>
-                </div>
-                <div className="flex flex-col items-center justify-center w-20 h-20 bg-[#F2F2F2] rounded-xl hover:cursor-pointer hover:bg-[#F1F3FF] transition-colors duration-200">
-                  <p className="text-lg text-black font-light">1:1</p>
-                </div>
-                <div className="flex flex-col items-center justify-center w-20 h-20 bg-[#F2F2F2] rounded-xl hover:cursor-pointer hover:bg-[#F1F3FF] transition-colors duration-200">
-                  <p className="text-lg text-black font-light">4:3</p>
-                </div>
-                <div className="flex flex-col items-center justify-center w-20 h-20 bg-[#F2F2F2] rounded-xl hover:cursor-pointer hover:bg-[#F1F3FF] transition-colors duration-200">
-                  <Youtube width="2rem" height="2rem" />
-                  <p className="text-lg text-black font-light">16:9</p>
-                </div>
-              </div>
+              {/* 비율 버튼 있던곳 */}
+              <Ratio />
             </div>
             <div className="flex flex-col items-start ml-6">
               {/*레이아웃 */}
@@ -160,6 +146,7 @@ const App = () => {
             </div>
           </div>
           <div className="flex flex-row mt-10 items-end mb-2">
+            {/* Footer */}
             <div className="flex flex-col items-start">
               <p className="text-2xl font-semibold text-[#C5C3C3]">
                 Thumbs Up! 👍
