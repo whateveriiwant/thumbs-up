@@ -13,9 +13,12 @@ const App = () => {
       />
       <div className="flex items-center justify-center">
         <div className="bg-white px-20 pt-11 mt-10 w-[55rem] h-[60rem] z-10 flex justify-start rounded-[3.5rem] flex-col">
-          <img src={thumbnail} alt="thumbnail" className="h-[27rem]" />
+          <img src={thumbnail} alt="thumbnail" className="h-[27rem]" />{" "}
+          {/* Thumbnail */}
           <div className="flex flex-row items-center justify-between mt-3">
             <div className="flex flex-row items-center">
+              {" "}
+              {/* 사이즈 입력 */}
               <p className="text-xl text-[#A9A9A9] font-light mr-2">사이즈</p>
               <input
                 type="text"
@@ -36,13 +39,13 @@ const App = () => {
               />
             </div>
             <div className="flex flex-row items-center">
+              {/* 복사, 다운 */}
               <Copy
                 width="1.75rem"
                 height="1.75rem"
                 fill="#A9A9A9"
                 className="ml-2 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-black"
               />
-
               <Download
                 width="1.75rem"
                 height="1.75rem"
