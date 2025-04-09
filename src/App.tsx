@@ -17,8 +17,25 @@ import GithubFooter from "./assets/footer/githubFooter.svg?react";
 import LinkedInFooter from "./assets/footer/linkedinFooter.svg?react";
 import VelogFooter from "./assets/footer/velogFooter.svg?react";
 import Ratio from "./components/ratio/Ratio";
+import { useState } from "react";
 
 const App = () => {
+  type RatioKey = 1 | 2 | 3 | 4;
+  let [ratioStatus, setRatioStatus] = useState<RatioKey>(1);
+  const ratioList = {
+    1: [768, 402.094], // Velog
+    2: [400, 400], // 1:1
+    3: [533.3333, 400], // 4:3
+    4: [640, 340], // Youtube
+  };
+
+  const onClickRatio = (status: RatioKey) => {
+    setRatioStatus(status);
+  };
+
+  let width = ratioList[ratioStatus][0];
+  let height = ratioList[ratioStatus][1];
+
   return (
     <div className="relative w-full min-h-screen overflow-hidden flex items-center justify-center">
       <div
@@ -36,13 +53,15 @@ const App = () => {
               <input
                 type="text"
                 alt="width"
-                className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-0.5 py-0.5 bg-white border border-[#D9D9D9] w-14 h-7 rounded-md text-center"
+                value={width}
+                className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-0.5 py-0.5 bg-white border border-[#D9D9D9] w-20 h-7 rounded-md text-center text-black font-light text-md"
               />
               <p className="text-md text-[#D9D9D9] font-light mx-1">X</p>
               <input
                 type="text"
                 alt="height"
-                className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-0.5 py-0.5 bg-white border border-[#D9D9D9] w-14 h-7 rounded-md text-center"
+                value={height}
+                className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-0.5 py-0.5 bg-white border border-[#D9D9D9] w-20 h-7 rounded-md text-center text-black font-light text-md"
               />
               <Reset
                 width="1.75rem"
@@ -76,7 +95,12 @@ const App = () => {
                 <p className="ml-2 text-2xl font-semibold">비율</p>
               </div>
               {/* 비율 버튼 있던곳 */}
-              <Ratio />
+              <Ratio
+                ratioStatus={ratioStatus}
+                updateRatio={onClickRatio}
+                width={width}
+                height={height}
+              />
             </div>
             <div className="flex flex-col items-start ml-6">
               {/*레이아웃 */}
