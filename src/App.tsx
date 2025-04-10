@@ -4,7 +4,6 @@ import Reset from "./assets/reset.svg?react";
 import Copy from "./assets/copy.svg?react";
 import Download from "./assets/download.svg?react";
 import Scale from "./assets/scale.svg?react";
-
 import Layout from "./assets/layout.svg?react";
 import BackGround from "./assets/bg.svg?react";
 import ResetBG from "./assets/resetBg.svg?react";
@@ -16,10 +15,20 @@ import Palette from "./assets/palette.svg?react";
 import GithubFooter from "./assets/footer/githubFooter.svg?react";
 import LinkedInFooter from "./assets/footer/linkedinFooter.svg?react";
 import VelogFooter from "./assets/footer/velogFooter.svg?react";
+import Darrow from "./assets/dArrow.svg?react";
 import Ratio from "./components/ratio/Ratio";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import LayoutDropdown from "./components/layout/LayoutDropdown";
 
 const App = () => {
+  useEffect(() => {
+    /* 우클릭 방지 */
+    document.oncontextmenu = function () {
+      return false;
+    };
+  }, []);
+
+  /* 비율 로직 */
   type RatioKey = 1 | 2 | 3 | 4;
   let [ratioStatus, setRatioStatus] = useState<RatioKey>(1);
   const ratioList = {
@@ -35,6 +44,19 @@ const App = () => {
 
   let width = ratioList[ratioStatus][0];
   let height = ratioList[ratioStatus][1];
+
+  /* 레이아웃 로직 */
+  const [layoutView, setLayoutView] = useState(false);
+
+  const onClickLayout = () => {
+    if (!layoutView) setLayoutView(true);
+    else {
+      setLayoutView(false);
+      // setTimeout(() => {
+      //   setLayoutView(false);
+      // }, 400);
+    }
+  };
 
   return (
     <div className="relative w-full min-h-screen overflow-hidden flex items-center justify-center">
@@ -94,7 +116,6 @@ const App = () => {
                 <Scale width="2rem" height="2rem" />
                 <p className="ml-2 text-2xl font-semibold">비율</p>
               </div>
-              {/* 비율 버튼 있던곳 */}
               <Ratio
                 ratioStatus={ratioStatus}
                 updateRatio={onClickRatio}
@@ -108,9 +129,23 @@ const App = () => {
                 <Layout width="2rem" height="2rem" />
                 <p className="ml-1 text-2xl font-semibold">레이아웃</p>
               </div>
-              <div className="flex flex-row items-center px-3 bg-[#F2F2F2] rounded-xl w-[17rem] h-12 mt-4">
+              {/* 레이아웃 드롭다운 */}
+              <div
+                onClick={() => onClickLayout()}
+                className="flex flex-row items-center justify-between px-3 bg-[#f6f6f6] rounded-xl w-[17rem] h-12 mt-4 hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out"
+              >
                 <p className="text-xl font-light">제목 + 부제목 + 소제목</p>
+                {layoutView ? (
+                  <Darrow
+                    width="1.8rem"
+                    height="1.8rem"
+                    className="rotate-180"
+                  />
+                ) : (
+                  <Darrow width="1.8rem" height="1.8rem" />
+                )}
               </div>
+              {layoutView && <LayoutDropdown status={layoutView} />}
             </div>
           </div>
           <div className="flex flex-row items-start mt-10 justify-between">

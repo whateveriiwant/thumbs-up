@@ -2,11 +2,35 @@
 @import "tailwindcss";
 
 @theme {
-    --color-black: #17171b;
+  --color-black: #17171b;
+
+  --animate-dropdown: dropdown 0.4s ease;
+  @keyframes dropdown {
+    0% {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  --animate-dropdown-out: dropdown-out 0.4s ease;
+  @keyframes dropdown-out {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    100% {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+  }
 }
 
 body {
-    -webkit-overflow-scrolling: touch;
-    font-family: "Pretendard Variable";
+  -webkit-overflow-scrolling: touch;
+  font-family: "Pretendard Variable";
 }
-
