@@ -1,5 +1,4 @@
 import bgImage from "./assets/default-bg.jpg";
-import thumbnail from "./assets/thumbnail.png";
 import Reset from "./assets/reset.svg?react";
 import Copy from "./assets/copy.svg?react";
 import Download from "./assets/download.svg?react";
@@ -7,7 +6,7 @@ import Scale from "./assets/scale.svg?react";
 import Layout from "./assets/layout.svg?react";
 import BackGround from "./assets/bg.svg?react";
 import ResetBG from "./assets/resetBg.svg?react";
-import Text from "./assets/text.svg?react";
+import TextIcon from "./assets/text.svg?react";
 import Bold from "./assets/bold.svg?react";
 import Underline from "./assets/underline.svg?react";
 import AlignLeft from "./assets/alignLeft.svg?react";
@@ -21,7 +20,7 @@ import { useEffect, useState } from "react";
 import LayoutDropdown from "./components/layout/LayoutDropdown";
 import BackgroundDropdown from "./components/background/BackgroundDropdown";
 import TextDropdown from "./components/text/TextDropdown";
-import { Stage, Layer, Image } from "react-konva";
+import { Stage, Layer, Image, Text, Line } from "react-konva";
 import useImage from "use-image";
 
 const App = () => {
@@ -34,6 +33,9 @@ const App = () => {
 
   /* 캔버스 로직 */
   const [testImage] = useImage("https://i.ibb.co/yng1dRz2/default-bg.jpg");
+  const textSizeList = {
+    1: [55, 35, 23],
+  };
 
   /* 비율 로직 */
   type RatioKey = 1 | 2 | 3 | 4;
@@ -118,17 +120,64 @@ const App = () => {
         style={{ backgroundImage: `url(${bgImage})` }}
       />
       <div className="flex items-center justify-center py-10">
-        <div className="bg-white px-20 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col">
+        <div className="bg-white px-14 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col">
           {/* <img src={thumbnail} alt="thumbnail" className="h-[27rem]" /> */}
           <div className="flex items-center justify-center">
             <Stage width={width} height={height}>
               <Layer>
                 <Image image={testImage} width={width} height={height} />
+                <Text
+                  x={0}
+                  y={height / 2 - 70}
+                  width={width}
+                  text="제목을 입력하세요"
+                  fontSize={55}
+                  fill="#ffffff"
+                  fontStyle="700"
+                  fontFamily="Pretendard Variable"
+                  align="center"
+                  verticalAlign="middle"
+                  draggable
+                />
+                <Line
+                  points={[
+                    width / 2 - 150,
+                    height / 2,
+                    width / 2 + 150,
+                    height / 2,
+                  ]}
+                  stroke="#ffffff"
+                  strokeWidth={1.5}
+                />
+                <Text
+                  x={0}
+                  y={height / 2 + 20}
+                  width={width}
+                  text="부제목을 입력하세요"
+                  fontSize={35}
+                  fill="#ffffff"
+                  fontStyle="500"
+                  fontFamily="Pretendard Variable"
+                  align="center"
+                  verticalAlign="middle"
+                  draggable
+                />
+                <Text
+                  x={0}
+                  y={height / 2 + 160}
+                  width={width}
+                  text="소제목을 입력하세요"
+                  fontSize={23}
+                  fill="#ffffff"
+                  fontStyle="300"
+                  fontFamily="Pretendard Variable"
+                  align="center"
+                  verticalAlign="middle"
+                  draggable
+                />
               </Layer>
             </Stage>
           </div>
-
-          {/* Thumbnail */}
           <div className="flex flex-row items-center justify-between mt-3">
             <div className="flex flex-row items-center">
               {/* 사이즈 입력 */}
@@ -255,7 +304,7 @@ const App = () => {
             </div>
             <div className="flex flex-col items-start">
               <div className="flex flex-row justify-center items-center">
-                <Text width="2rem" height="2rem" />
+                <TextIcon width="2rem" height="2rem" />
                 <p className="ml-2 text-2xl font-semibold">텍스트</p>
               </div>
               <div className="flex flex-row items-center mt-4">
