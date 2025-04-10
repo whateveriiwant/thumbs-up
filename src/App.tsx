@@ -21,6 +21,8 @@ import { useEffect, useState } from "react";
 import LayoutDropdown from "./components/layout/LayoutDropdown";
 import BackgroundDropdown from "./components/background/BackgroundDropdown";
 import TextDropdown from "./components/text/TextDropdown";
+import { Stage, Layer, Image } from "react-konva";
+import useImage from "use-image";
 
 const App = () => {
   useEffect(() => {
@@ -29,6 +31,9 @@ const App = () => {
       return false;
     };
   }, []);
+
+  /* 캔버스 로직 */
+  const [testImage] = useImage("https://i.ibb.co/yng1dRz2/default-bg.jpg");
 
   /* 비율 로직 */
   type RatioKey = 1 | 2 | 3 | 4;
@@ -114,7 +119,15 @@ const App = () => {
       />
       <div className="flex items-center justify-center py-10">
         <div className="bg-white px-20 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col">
-          <img src={thumbnail} alt="thumbnail" className="h-[27rem]" />
+          {/* <img src={thumbnail} alt="thumbnail" className="h-[27rem]" /> */}
+          <div className="flex items-center justify-center">
+            <Stage width={width} height={height}>
+              <Layer>
+                <Image image={testImage} width={width} height={height} />
+              </Layer>
+            </Stage>
+          </div>
+
           {/* Thumbnail */}
           <div className="flex flex-row items-center justify-between mt-3">
             <div className="flex flex-row items-center">
