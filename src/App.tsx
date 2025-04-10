@@ -20,6 +20,7 @@ import Ratio from "./components/ratio/Ratio";
 import { useEffect, useState } from "react";
 import LayoutDropdown from "./components/layout/LayoutDropdown";
 import BackgroundDropdown from "./components/background/BackgroundDropdown";
+import TextDropdown from "./components/text/TextDropdown";
 
 const App = () => {
   useEffect(() => {
@@ -83,6 +84,26 @@ const App = () => {
   const onClickBgDropdownMenu = (i: BgKey) => {
     setBg(i);
     setBgView(!bgView);
+  };
+
+  /* 텍스트 로직 */
+  type TextKey = 1 | 2 | 3 | 4;
+  const [textView, setTextView] = useState(false); // 텍스트 드롭다운
+  let [text, setText] = useState<TextKey>(1);
+  const textList = {
+    1: "Pretendard",
+    2: "나눔 고딕",
+    3: "서울한강체",
+    4: "Noto Sans KR",
+  };
+
+  const onClickTextDropdown = () => {
+    setTextView(!textView);
+  };
+
+  const onClickTextDropdownMenu = (i: TextKey) => {
+    setText(i);
+    setTextView(!textView);
   };
 
   return (
@@ -224,9 +245,21 @@ const App = () => {
                 <Text width="2rem" height="2rem" />
                 <p className="ml-2 text-2xl font-semibold">텍스트</p>
               </div>
-              <div className="flex flex-row items-center mt-3">
-                <div className="flex flex-row items-center px-3 bg-[#F2F2F2] rounded-xl w-[12.5rem] h-12">
-                  <p className="text-xl font-light">Pretendard</p>
+              <div className="flex flex-row items-center mt-4">
+                <div
+                  onClick={() => onClickTextDropdown()}
+                  className="flex flex-row items-center justify-between px-3 bg-[#F2F2F2] rounded-xl w-[12.5rem] h-12 hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out"
+                >
+                  <p className="text-xl font-light">{textList[text]}</p>
+                  {textView ? (
+                    <Darrow
+                      width="1.8rem"
+                      height="1.8rem"
+                      className="rotate-180"
+                    />
+                  ) : (
+                    <Darrow width="1.8rem" height="1.8rem" />
+                  )}
                 </div>
                 <input
                   type="number"
@@ -240,6 +273,13 @@ const App = () => {
                   className="w-[4rem] h-12 ml-2 focus:outline-none px-2 text-xl font-light text-center bg-white border border-[#D9D9D9] rounded-lg"
                 />
               </div>
+              {textView && (
+                <TextDropdown
+                  status={textView}
+                  setText={onClickTextDropdownMenu}
+                  currentText={text}
+                />
+              )}
               <div className="flex flex-row mt-3 justify-between w-[12.5rem]">
                 <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg">
                   <Bold width="1.8rem" height="1.8rem" />
