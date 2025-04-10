@@ -19,6 +19,7 @@ import Darrow from "./assets/dArrow.svg?react";
 import Ratio from "./components/ratio/Ratio";
 import { useEffect, useState } from "react";
 import LayoutDropdown from "./components/layout/LayoutDropdown";
+import BackgroundDropdown from "./components/background/BackgroundDropdown";
 
 const App = () => {
   useEffect(() => {
@@ -56,13 +57,32 @@ const App = () => {
     4: "제목 + 소제목",
   };
 
-  const onClickLayout = () => {
+  const onClickLayoutDropdown = () => {
     setLayoutView(!layoutView);
   };
 
-  const onClickMenu = (i: LayoutKey) => {
+  const onClickLayoutDropdownMenu = (i: LayoutKey) => {
     setLayout(i);
     setLayoutView(!layoutView);
+  };
+
+  /* 배경 로직 */
+  type BgKey = 1 | 2 | 3;
+  const [bgView, setBgView] = useState(false); // 배경 드롭다운
+  let [bg, setBg] = useState<BgKey>(1);
+  const bgList = {
+    1: "랜덤 배경 이미지",
+    2: "단색 배경",
+    3: "그라디언트 배경",
+  };
+
+  const onClickBgDropdown = () => {
+    setBgView(!bgView);
+  };
+
+  const onClickBgDropdownMenu = (i: BgKey) => {
+    setBg(i);
+    setBgView(!bgView);
   };
 
   return (
@@ -138,7 +158,7 @@ const App = () => {
               </div>
               {/* 레이아웃 드롭다운 */}
               <div
-                onClick={() => onClickLayout()}
+                onClick={() => onClickLayoutDropdown()}
                 className="flex flex-row items-center justify-between px-3 bg-[#f6f6f6] rounded-xl w-[17rem] h-12 mt-4 hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out"
               >
                 <p className="text-xl font-light">{layoutList[layout]}</p>
@@ -155,7 +175,7 @@ const App = () => {
               {layoutView && (
                 <LayoutDropdown
                   status={layoutView}
-                  setLayout={onClickMenu}
+                  setLayout={onClickLayoutDropdownMenu}
                   currentLayout={layout}
                 />
               )}
@@ -169,8 +189,20 @@ const App = () => {
                 <p className="ml-1 text-2xl font-semibold">배경</p>
               </div>
               <div className="flex flex-row place-items-center mt-3">
-                <div className="flex flex-row items-center px-3 bg-[#F2F2F2] rounded-xl w-[13rem] h-12">
-                  <p className="text-xl font-light">랜덤 배경 이미지</p>
+                <div
+                  onClick={() => onClickBgDropdown()}
+                  className="flex flex-row items-center justify-between px-3 bg-[#F2F2F2] rounded-xl w-[13rem] h-12 hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out"
+                >
+                  <p className="text-xl font-light">{bgList[bg]}</p>
+                  {bgView ? (
+                    <Darrow
+                      width="1.8rem"
+                      height="1.8rem"
+                      className="rotate-180"
+                    />
+                  ) : (
+                    <Darrow width="1.8rem" height="1.8rem" />
+                  )}
                 </div>
                 <ResetBG
                   width="2rem"
@@ -179,6 +211,13 @@ const App = () => {
                   className="ml-2 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-black"
                 />
               </div>
+              {bgView && (
+                <BackgroundDropdown
+                  status={bgView}
+                  setBg={onClickBgDropdownMenu}
+                  currentBg={bg}
+                />
+              )}
             </div>
             <div className="flex flex-col items-start">
               <div className="flex flex-row justify-center items-center">
