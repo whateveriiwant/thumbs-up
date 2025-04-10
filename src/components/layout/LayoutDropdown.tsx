@@ -6,16 +6,28 @@ const LayoutDropdown = (props: any) => {
       }`}
     >
       <div className="flex flex-col items-start justify-start bg-white">
-        <div className="flex items-center w-full h-12 px-3 bg-white hover:bg-[#DFE3FF] transition-colors duration-200 ease-in-out rounded-xl">
+        <div
+          onClick={() => props.setLayout(1)}
+          className="flex items-center w-full h-12 px-3 bg-white hover:bg-[#DFE3FF] transition-colors duration-200 ease-in-out rounded-xl"
+        >
           <p className="text-xl font-light">제목 + 부제목 + 소제목</p>
         </div>
-        <div className="flex items-center w-full h-12 px-3 bg-white hover:bg-[#DFE3FF] transition-colors duration-200 ease-in-out rounded-xl">
+        <div
+          onClick={() => props.setLayout(2)}
+          className="flex items-center w-full h-12 px-3 bg-white hover:bg-[#DFE3FF] transition-colors duration-200 ease-in-out rounded-xl"
+        >
           <p className="text-xl font-light">제목</p>
         </div>
-        <div className="flex items-center w-full h-12 px-3 bg-white hover:bg-[#DFE3FF] transition-colors duration-200 ease-in-out rounded-xl">
+        <div
+          onClick={() => props.setLayout(3)}
+          className="flex items-center w-full h-12 px-3 bg-white hover:bg-[#DFE3FF] transition-colors duration-200 ease-in-out rounded-xl"
+        >
           <p className="text-xl font-light">제목 + 부제목</p>
         </div>
-        <div className="flex items-center w-full h-12 px-3 bg-white hover:bg-[#DFE3FF] transition-colors duration-200 ease-in-out rounded-xl">
+        <div
+          onClick={() => props.setLayout(4)}
+          className="flex items-center w-full h-12 px-3 bg-white hover:bg-[#DFE3FF] transition-colors duration-200 ease-in-out rounded-xl"
+        >
           <p className="text-xl font-light">제목 + 소제목</p>
         </div>
       </div>

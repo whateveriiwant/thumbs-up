@@ -46,16 +46,23 @@ const App = () => {
   let height = ratioList[ratioStatus][1];
 
   /* 레이아웃 로직 */
-  const [layoutView, setLayoutView] = useState(false);
+  type LayoutKey = 1 | 2 | 3 | 4;
+  const [layoutView, setLayoutView] = useState(false); // 드롭다운
+  let [layout, setLayout] = useState<LayoutKey>(1);
+  const layoutList = {
+    1: "제목 + 부제목 + 소제목",
+    2: "제목",
+    3: "제목 + 부제목",
+    4: "제목 + 소제목",
+  };
 
   const onClickLayout = () => {
-    if (!layoutView) setLayoutView(true);
-    else {
-      setLayoutView(false);
-      // setTimeout(() => {
-      //   setLayoutView(false);
-      // }, 400);
-    }
+    setLayoutView(!layoutView);
+  };
+
+  const onClickMenu = (i: LayoutKey) => {
+    setLayout(i);
+    setLayoutView(!layoutView);
   };
 
   return (
@@ -134,7 +141,7 @@ const App = () => {
                 onClick={() => onClickLayout()}
                 className="flex flex-row items-center justify-between px-3 bg-[#f6f6f6] rounded-xl w-[17rem] h-12 mt-4 hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out"
               >
-                <p className="text-xl font-light">제목 + 부제목 + 소제목</p>
+                <p className="text-xl font-light">{layoutList[layout]}</p>
                 {layoutView ? (
                   <Darrow
                     width="1.8rem"
@@ -145,7 +152,13 @@ const App = () => {
                   <Darrow width="1.8rem" height="1.8rem" />
                 )}
               </div>
-              {layoutView && <LayoutDropdown status={layoutView} />}
+              {layoutView && (
+                <LayoutDropdown
+                  status={layoutView}
+                  setLayout={onClickMenu}
+                  currentLayout={layout}
+                />
+              )}
             </div>
           </div>
           <div className="flex flex-row items-start mt-10 justify-between">
