@@ -31,12 +31,6 @@ const App = () => {
     };
   }, []);
 
-  /* 캔버스 로직 */
-  const [testImage] = useImage("https://i.ibb.co/yng1dRz2/default-bg.jpg");
-  const textSizeList = {
-    1: [55, 35, 23],
-  };
-
   /* 비율 로직 */
   type RatioKey = 1 | 2 | 3 | 4;
   let [ratioStatus, setRatioStatus] = useState<RatioKey>(1);
@@ -113,6 +107,28 @@ const App = () => {
     setTextView(!textView);
   };
 
+  /* 캔버스 로직 */
+  const [testImage] = useImage("https://i.ibb.co/yng1dRz2/default-bg.jpg");
+  const textSizeList = {
+    // 폰트 사이즈 제목, 부제목, 소제목 순서
+    1: [55, 35, 23], // Velog
+    2: [45, 30, 20], // 1:1
+    3: [55, 35, 22], // 4:3
+    4: [55, 35, 23], // Youtube 16:9
+  };
+  const textPositionList = {
+    1: [0, height / 2 - 70, 0, height / 2 + 20, 0, height / 2 + 160], // Velog
+    2: [0, height / 2 - 70, 0, height / 2 + 20, 0, height / 2 + 160], // 1:1
+    3: [0, height / 2 - 70, 0, height / 2 + 20, 0, height / 2 + 160], // 4:3
+    4: [0, height / 2 - 90, 0, height / 2, 0, height / 2 + 135], // Youtube
+  };
+  const linePositionList = {
+    1: [width / 2 - 150, height / 2, width / 2 + 150, height / 2],
+    2: [width / 2 - 150, height / 2, width / 2 + 150, height / 2],
+    3: [width / 2 - 150, height / 2, width / 2 + 150, height / 2],
+    4: [width / 2 - 150, height / 2 - 20, width / 2 + 150, height / 2 - 20],
+  };
+
   return (
     <div className="relative w-full min-h-screen overflow-hidden flex items-center justify-center">
       <div
@@ -127,11 +143,11 @@ const App = () => {
               <Layer>
                 <Image image={testImage} width={width} height={height} />
                 <Text
-                  x={0}
-                  y={height / 2 - 70}
+                  x={textPositionList[ratioStatus][0]}
+                  y={textPositionList[ratioStatus][1]}
                   width={width}
                   text="제목을 입력하세요"
-                  fontSize={55}
+                  fontSize={textSizeList[ratioStatus][0]}
                   fill="#ffffff"
                   fontStyle="700"
                   fontFamily="Pretendard Variable"
@@ -141,20 +157,21 @@ const App = () => {
                 />
                 <Line
                   points={[
-                    width / 2 - 150,
-                    height / 2,
-                    width / 2 + 150,
-                    height / 2,
+                    linePositionList[ratioStatus][0],
+                    linePositionList[ratioStatus][1],
+                    linePositionList[ratioStatus][2],
+                    linePositionList[ratioStatus][3],
                   ]}
                   stroke="#ffffff"
                   strokeWidth={1.5}
+                  draggable
                 />
                 <Text
-                  x={0}
-                  y={height / 2 + 20}
+                  x={textPositionList[ratioStatus][2]}
+                  y={textPositionList[ratioStatus][3]}
                   width={width}
                   text="부제목을 입력하세요"
-                  fontSize={35}
+                  fontSize={textSizeList[ratioStatus][1]}
                   fill="#ffffff"
                   fontStyle="500"
                   fontFamily="Pretendard Variable"
@@ -163,11 +180,11 @@ const App = () => {
                   draggable
                 />
                 <Text
-                  x={0}
-                  y={height / 2 + 160}
+                  x={textPositionList[ratioStatus][4]}
+                  y={textPositionList[ratioStatus][5]}
                   width={width}
                   text="소제목을 입력하세요"
-                  fontSize={23}
+                  fontSize={textSizeList[ratioStatus][2]}
                   fill="#ffffff"
                   fontStyle="300"
                   fontFamily="Pretendard Variable"
