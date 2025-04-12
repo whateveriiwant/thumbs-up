@@ -22,6 +22,22 @@ import BackgroundDropdown from "./components/background/BackgroundDropdown";
 import TextDropdown from "./components/text/TextDropdown";
 import { Stage, Layer, Image, Text, Line } from "react-konva";
 import useImage from "use-image";
+import {
+  textPositionList1,
+  textPositionList2,
+  textPositionList3,
+  textPositionList4,
+} from "./components/layout/TextPositionList";
+import {
+  linePositionList1,
+  linePositionList2,
+  linePositionList3,
+  linePositionList4,
+} from "./components/layout/LinePositionList";
+
+// LocalStorage keys
+const STORAGE_KEY_RATIO = "thumbs-up-ratio";
+const STORAGE_KEY_LAYOUT = "thumbs-up-layout";
 
 const App = () => {
   useEffect(() => {
@@ -33,7 +49,12 @@ const App = () => {
 
   /* 비율 로직 */
   type RatioKey = 1 | 2 | 3 | 4;
-  let [ratioStatus, setRatioStatus] = useState<RatioKey>(1);
+  let [ratioStatus, setRatioStatus] = useState<RatioKey>(() => {
+    // Load from localStorage or default to 1
+    const savedRatio = localStorage.getItem(STORAGE_KEY_RATIO);
+    return (savedRatio ? parseInt(savedRatio) : 1) as RatioKey;
+  });
+
   const ratioList = {
     1: [768, 402.094], // Velog
     2: [400, 400], // 1:1
@@ -50,30 +71,60 @@ const App = () => {
 
   const onClickRatio = (status: RatioKey) => {
     setRatioStatus(status);
+    // Save to localStorage
+    localStorage.setItem(STORAGE_KEY_RATIO, status.toString());
+
     const newWidth = ratioList[status][0];
     const newHeight = ratioList[status][1];
     setWidth(newWidth);
     setHeight(newHeight);
 
-    setTextPosition({
-      1: [0, 402.094 / 2 - 70, 0, 402.094 / 2 + 20, 0, 402.094 / 2 + 160], // Velog
-      2: [0, 400 / 2 - 60, 0, 400 / 2 + 20, 0, 400 / 2 + 160], // 1:1
-      3: [0, 400 / 2 - 70, 0, 400 / 2 + 20, 0, 400 / 2 + 160], // 4:3
-      4: [0, 340 / 2 - 90, 0, 340 / 2, 0, 340 / 2 + 135], // Youtube
-    });
+    // setTextPosition({
+    //   1: [0, 402.094 / 2 - 70, 0, 402.094 / 2 + 20, 0, 402.094 / 2 + 160], // Velog
+    //   2: [0, 400 / 2 - 60, 0, 400 / 2 + 20, 0, 400 / 2 + 160], // 1:1
+    //   3: [0, 400 / 2 - 70, 0, 400 / 2 + 20, 0, 400 / 2 + 160], // 4:3
+    //   4: [0, 340 / 2 - 90, 0, 340 / 2, 0, 340 / 2 + 135], // Youtube
+    // });
 
-    setLinePosition({
-      1: [768 / 2 - 150, 402.094 / 2, 768 / 2 + 150, 402.094 / 2],
-      2: [400 / 2 - 130, 400 / 2, 400 / 2 + 130, 400 / 2],
-      3: [533.3333 / 2 - 155, 400 / 2, 533.3333 / 2 + 155, 400 / 2],
-      4: [640 / 2 - 155, 340 / 2 - 20, 640 / 2 + 150, 340 / 2 - 20],
-    });
+    // setLinePosition({
+    //   1: [768 / 2 - 150, 402.094 / 2, 768 / 2 + 150, 402.094 / 2],
+    //   2: [400 / 2 - 130, 400 / 2, 400 / 2 + 130, 400 / 2],
+    //   3: [533.3333 / 2 - 155, 400 / 2, 533.3333 / 2 + 155, 400 / 2],
+    //   4: [640 / 2 - 155, 340 / 2 - 20, 640 / 2 + 150, 340 / 2 - 20],
+    // });
   };
 
   /* 레이아웃 로직 */
   type LayoutKey = 1 | 2 | 3 | 4;
   const [layoutView, setLayoutView] = useState(false); // 드롭다운
-  let [layout, setLayout] = useState<LayoutKey>(1);
+  let [layout, setLayout] = useState<LayoutKey>(() => {
+    // Load from localStorage or default to 1
+    const savedLayout = localStorage.getItem(STORAGE_KEY_LAYOUT);
+    return (savedLayout ? parseInt(savedLayout) : 1) as LayoutKey;
+  });
+
+  useEffect(() => {
+    // Create mappings for position lists
+    const positionMappings = {
+      text: {
+        1: textPositionList1,
+        2: textPositionList2,
+        3: textPositionList3,
+        4: textPositionList4,
+      },
+      line: {
+        1: linePositionList1,
+        2: linePositionList2,
+        3: linePositionList3,
+        4: linePositionList4,
+      },
+    };
+
+    // Set positions directly using the ratioStatus as a key
+    setTextPosition(positionMappings.text[layout]);
+    setLinePosition(positionMappings.line[layout]);
+  }, [layout]);
+
   const layoutList = {
     1: "제목 + 부제목 + 소제목",
     2: "제목",
@@ -87,6 +138,8 @@ const App = () => {
 
   const onClickLayoutDropdownMenu = (i: LayoutKey) => {
     setLayout(i);
+    // Save to localStorage
+    localStorage.setItem(STORAGE_KEY_LAYOUT, i.toString());
     setLayoutView(!layoutView);
   };
 
@@ -186,7 +239,6 @@ const App = () => {
       />
       <div className="flex items-center justify-center py-10">
         <div className="bg-white px-14 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col">
-          {/* <img src={thumbnail} alt="thumbnail" className="h-[27rem]" /> */}
           <div className="flex items-center justify-center">
             <Stage width={width} height={height} key={resetKey}>
               <Layer>
@@ -219,88 +271,94 @@ const App = () => {
                   }}
                   draggable
                 />
-                <Line
-                  points={[
-                    linePosition[ratioStatus][0],
-                    linePosition[ratioStatus][1],
-                    linePosition[ratioStatus][2],
-                    linePosition[ratioStatus][3],
-                  ]}
-                  stroke="#ffffff"
-                  strokeWidth={2}
-                  onDragStart={() => setIsDragging(true)}
-                  onDragEnd={(e) => {
-                    setIsDragging(false);
-                    const line =
-                      e.target as import("konva/lib/shapes/Line").Line;
-                    setLinePosition({
-                      ...linePosition,
-                      [ratioStatus]: [
-                        line.points()[0],
-                        line.points()[1],
-                        line.points()[2],
-                        line.points()[3],
-                      ],
-                    });
-                  }}
-                  draggable
-                />
-                <Text
-                  x={textPosition[ratioStatus][2]}
-                  y={textPosition[ratioStatus][3]}
-                  width={width}
-                  text="부제목을 입력하세요"
-                  fontSize={textSizeList[ratioStatus][1]}
-                  fill="#ffffff"
-                  fontStyle="500"
-                  fontFamily="Pretendard Variable"
-                  align="center"
-                  verticalAlign="middle"
-                  onDragStart={() => setIsDragging(true)}
-                  onDragEnd={(e) => {
-                    setIsDragging(false);
-                    setTextPosition({
-                      ...textPosition,
-                      [ratioStatus]: [
-                        textPosition[ratioStatus][0],
-                        textPosition[ratioStatus][1],
-                        e.target.x(),
-                        e.target.y(),
-                        textPosition[ratioStatus][4],
-                        textPosition[ratioStatus][5],
-                      ],
-                    });
-                  }}
-                  draggable
-                />
-                <Text
-                  x={textPosition[ratioStatus][4]}
-                  y={textPosition[ratioStatus][5]}
-                  width={width}
-                  text="소제목을 입력하세요"
-                  fontSize={textSizeList[ratioStatus][2]}
-                  fill="#ffffff"
-                  fontStyle="300"
-                  fontFamily="Pretendard Variable"
-                  align="center"
-                  verticalAlign="middle"
-                  onDragStart={() => setIsDragging(true)}
-                  onDragEnd={(e) => {
-                    setIsDragging(false);
-                    setTextPosition({
-                      ...textPosition,
-                      [ratioStatus]: [
-                        textPosition[ratioStatus][0],
-                        textPosition[ratioStatus][1],
-                        textPosition[ratioStatus][2],
-                        textPosition[ratioStatus][3],
-                        e.target.x(),
-                        e.target.y(),
-                      ],
-                    });
-                  }}
-                  draggable
-                />
+                {(layout === 1 || layout === 3) && (
+                  <Line
+                    points={[
+                      linePosition[ratioStatus][0],
+                      linePosition[ratioStatus][1],
+                      linePosition[ratioStatus][2],
+                      linePosition[ratioStatus][3],
+                    ]}
+                    stroke="#ffffff"
+                    strokeWidth={2}
+                    onDragStart={() => setIsDragging(true)}
+                    onDragEnd={(e) => {
+                      setIsDragging(false);
+                      const line =
+                        e.target as import("konva/lib/shapes/Line").Line;
+                      setLinePosition({
+                        ...linePosition,
+                        [ratioStatus]: [
+                          line.points()[0],
+                          line.points()[1],
+                          line.points()[2],
+                          line.points()[3],
+                        ],
+                      });
+                    }}
+                    draggable
+                  />
+                )}
+                {(layout === 1 || layout === 3) && (
+                  <Text
+                    x={textPosition[ratioStatus][2]}
+                    y={textPosition[ratioStatus][3]}
+                    width={width}
+                    text="부제목을 입력하세요"
+                    fontSize={textSizeList[ratioStatus][1]}
+                    fill="#ffffff"
+                    fontStyle="500"
+                    fontFamily="Pretendard Variable"
+                    align="center"
+                    verticalAlign="middle"
+                    onDragStart={() => setIsDragging(true)}
+                    onDragEnd={(e) => {
+                      setIsDragging(false);
+                      setTextPosition({
+                        ...textPosition,
+                        [ratioStatus]: [
+                          textPosition[ratioStatus][0],
+                          textPosition[ratioStatus][1],
+                          e.target.x(),
+                          e.target.y(),
+                          textPosition[ratioStatus][4],
+                          textPosition[ratioStatus][5],
+                        ],
+                      });
+                    }}
+                    draggable
+                  />
+                )}
+                {(layout === 1 || layout === 4) && (
+                  <Text
+                    x={textPosition[ratioStatus][4]}
+                    y={textPosition[ratioStatus][5]}
+                    width={width}
+                    text="소제목을 입력하세요"
+                    fontSize={textSizeList[ratioStatus][2]}
+                    fill="#ffffff"
+                    fontStyle="300"
+                    fontFamily="Pretendard Variable"
+                    align="center"
+                    verticalAlign="middle"
+                    onDragStart={() => setIsDragging(true)}
+                    onDragEnd={(e) => {
+                      setIsDragging(false);
+                      setTextPosition({
+                        ...textPosition,
+                        [ratioStatus]: [
+                          textPosition[ratioStatus][0],
+                          textPosition[ratioStatus][1],
+                          textPosition[ratioStatus][2],
+                          textPosition[ratioStatus][3],
+                          e.target.x(),
+                          e.target.y(),
+                        ],
+                      });
+                    }}
+                    draggable
+                  />
+                )}
               </Layer>
             </Stage>
           </div>
@@ -361,7 +419,6 @@ const App = () => {
                 width={width}
                 height={height}
               />
-              {width} {height}
             </div>
             <div className="flex flex-col items-start ml-6">
               {/*레이아웃 */}
