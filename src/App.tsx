@@ -1,4 +1,3 @@
-import bgImageUrl from "./assets/default-bg.jpg";
 import Reset from "./assets/reset.svg?react";
 import Copy from "./assets/copy.svg?react";
 import Download from "./assets/download.svg?react";
@@ -146,7 +145,26 @@ const App = () => {
     setBgView(!bgView);
   };
 
-  const [bgImage] = useImage("https://i.ibb.co/yng1dRz2/default-bg.jpg");
+  const bgImageList = [
+    "https://i.ibb.co/yng1dRz2/default-bg.jpg",
+    "https://i.ibb.co/F4JJMm76/richard-horvath-n-Wae-TF6qo0-unsplash.jpg",
+    "https://i.ibb.co/8DSHtRvT/milad-fakurian-u8-Jn2rz-YIps-unsplash.jpg",
+    "https://i.ibb.co/svqwBfCW/pawel-czerwinski-FAl-YVt-V1k-Rg-unsplash.jpg",
+    "https://i.ibb.co/F4YrW3kZ/engin-akyurt-Hlkuojv-P6-I-unsplash.jpg",
+    "https://i.ibb.co/0yFdX6QX/shapelined-JBKdviwe-XI-unsplash.jpg",
+  ];
+
+  const [index, setIndex] = useState(0);
+  const [bgImage] = useImage(bgImageList[index]);
+
+  const onClickBgImageReset = () => {
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * bgImageList.length);
+    } while (newIndex === index);
+
+    setIndex(newIndex);
+  };
 
   /* 텍스트 로직 */
   type TextKey = 1 | 2 | 3 | 4;
@@ -223,8 +241,8 @@ const App = () => {
   return (
     <div className="relative w-full min-h-screen overflow-hidden flex items-center justify-center">
       <div
-        className="absolute inset-0 bg-cover w-full h-full -z-10 blur-xs scale-400"
-        style={{ backgroundImage: `url(${bgImageUrl})` }}
+        className="absolute inset-0 bg-cover w-full h-full -z-10 blur-xs scale-150"
+        style={{ backgroundImage: `url(${bgImageList[index]})` }}
       />
       <div className="flex items-center justify-center py-10">
         <div className="bg-white px-14 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col">
@@ -475,6 +493,7 @@ const App = () => {
                   )}
                 </div>
                 <ResetBG
+                  onClick={() => onClickBgImageReset()}
                   width="2rem"
                   height="2rem"
                   fill="#A9A9A9"
