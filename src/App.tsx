@@ -1,4 +1,4 @@
-import bgImage from "./assets/default-bg.jpg";
+import bgImageUrl from "./assets/default-bg.jpg";
 import Reset from "./assets/reset.svg?react";
 import Copy from "./assets/copy.svg?react";
 import Download from "./assets/download.svg?react";
@@ -49,7 +49,7 @@ const App = () => {
 
   /* 비율 로직 */
   type RatioKey = 1 | 2 | 3 | 4;
-  let [ratioStatus, setRatioStatus] = useState<RatioKey>(() => {
+  const [ratioStatus, setRatioStatus] = useState<RatioKey>(() => {
     // Load from localStorage or default to 1
     const savedRatio = localStorage.getItem(STORAGE_KEY_RATIO);
     return (savedRatio ? parseInt(savedRatio) : 1) as RatioKey;
@@ -83,7 +83,7 @@ const App = () => {
   /* 레이아웃 로직 */
   type LayoutKey = 1 | 2 | 3 | 4;
   const [layoutView, setLayoutView] = useState(false); // 드롭다운
-  let [layout, setLayout] = useState<LayoutKey>(() => {
+  const [layout, setLayout] = useState<LayoutKey>(() => {
     // Load from localStorage or default to 1
     const savedLayout = localStorage.getItem(STORAGE_KEY_LAYOUT);
     return (savedLayout ? parseInt(savedLayout) : 1) as LayoutKey;
@@ -132,7 +132,7 @@ const App = () => {
   /* 배경 로직 */
   type BgKey = 1 | 2 | 3;
   const [bgView, setBgView] = useState(false); // 배경 드롭다운
-  let [bg, setBg] = useState<BgKey>(1);
+  const [bg, setBg] = useState<BgKey>(1);
   const bgList = {
     1: "랜덤 배경 이미지",
     2: "단색 배경",
@@ -148,10 +148,12 @@ const App = () => {
     setBgView(!bgView);
   };
 
+  const [bgImage] = useImage("https://i.ibb.co/yng1dRz2/default-bg.jpg");
+
   /* 텍스트 로직 */
   type TextKey = 1 | 2 | 3 | 4;
   const [textView, setTextView] = useState(false); // 텍스트 드롭다운
-  let [text, setText] = useState<TextKey>(1);
+  const [text, setText] = useState<TextKey>(1);
   const textList = {
     1: "Pretendard",
     2: "나눔 고딕",
@@ -169,7 +171,6 @@ const App = () => {
   };
 
   /* 캔버스 로직 */
-  const [testImage] = useImage("https://i.ibb.co/yng1dRz2/default-bg.jpg");
   const textSizeList = {
     // 폰트 사이즈 제목, 부제목, 소제목 순서
     1: [55, 35, 23], // Velog
@@ -225,14 +226,14 @@ const App = () => {
     <div className="relative w-full min-h-screen overflow-hidden flex items-center justify-center">
       <div
         className="absolute inset-0 bg-cover w-full h-full -z-10 blur-xs scale-400"
-        style={{ backgroundImage: `url(${bgImage})` }}
+        style={{ backgroundImage: `url(${bgImageUrl})` }}
       />
       <div className="flex items-center justify-center py-10">
         <div className="bg-white px-14 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col">
           <div className="flex items-center justify-center">
             <Stage width={width} height={height} key={resetKey}>
               <Layer>
-                <Image image={testImage} width={width} height={height} />
+                <Image image={bgImage} width={width} height={height} />
                 <Text
                   x={textPosition[ratioStatus][0]}
                   y={textPosition[ratioStatus][1]}
