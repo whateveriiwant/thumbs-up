@@ -191,6 +191,9 @@ const App = () => {
     4: [640 / 2 - 155, 340 / 2 - 20, 640 / 2 + 150, 340 / 2 - 20],
   });
 
+  // Snap threshold in pixels - how close to center before snapping
+  const snapThreshold = 15;
+
   // Add a key state to force re-renders
   const [resetKey, setResetKey] = useState(0);
 
@@ -241,6 +244,13 @@ const App = () => {
                   align="center"
                   verticalAlign="middle"
                   onDragStart={() => setIsDragging(true)}
+                  onDragMove={(e) => {
+                    // Check if near horizontal center
+                    const centerX = width / 2 - e.target.width() / 2;
+                    if (Math.abs(e.target.x() - centerX) < snapThreshold) {
+                      e.target.x(centerX);
+                    }
+                  }}
                   onDragEnd={(e) => {
                     setIsDragging(false);
                     setTextPosition({
@@ -268,6 +278,20 @@ const App = () => {
                     stroke="#ffffff"
                     strokeWidth={2}
                     onDragStart={() => setIsDragging(true)}
+                    onDragMove={(e) => {
+                      const line =
+                        e.target as import("konva/lib/shapes/Line").Line;
+                      const points = line.points();
+
+                      // Calculate center Y position
+                      const centerY = height / 2;
+                      const currentY = points[1]; // Y position of first point
+
+                      // If near vertical center, snap to it
+                      if (Math.abs(currentY - centerY) < snapThreshold) {
+                        line.points([points[0], centerY, points[2], centerY]);
+                      }
+                    }}
                     onDragEnd={(e) => {
                       setIsDragging(false);
                       const line =
@@ -298,6 +322,13 @@ const App = () => {
                     align="center"
                     verticalAlign="middle"
                     onDragStart={() => setIsDragging(true)}
+                    onDragMove={(e) => {
+                      // Check if near horizontal center
+                      const centerX = width / 2 - e.target.width() / 2;
+                      if (Math.abs(e.target.x() - centerX) < snapThreshold) {
+                        e.target.x(centerX);
+                      }
+                    }}
                     onDragEnd={(e) => {
                       setIsDragging(false);
                       setTextPosition({
@@ -328,6 +359,13 @@ const App = () => {
                     align="center"
                     verticalAlign="middle"
                     onDragStart={() => setIsDragging(true)}
+                    onDragMove={(e) => {
+                      // Check if near horizontal center
+                      const centerX = width / 2 - e.target.width() / 2;
+                      if (Math.abs(e.target.x() - centerX) < snapThreshold) {
+                        e.target.x(centerX);
+                      }
+                    }}
                     onDragEnd={(e) => {
                       setIsDragging(false);
                       setTextPosition({
