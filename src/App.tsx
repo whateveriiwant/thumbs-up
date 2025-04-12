@@ -41,12 +41,34 @@ const App = () => {
     4: [640, 340], // Youtube
   };
 
+  const [width, setWidth] = useState<number>(ratioList[ratioStatus][0]);
+  const [height, setHeight] = useState<number>(ratioList[ratioStatus][1]);
+  useEffect(() => {
+    setWidth(ratioList[ratioStatus][0]);
+    setHeight(ratioList[ratioStatus][1]);
+  }, [ratioStatus]);
+
   const onClickRatio = (status: RatioKey) => {
     setRatioStatus(status);
-  };
+    const newWidth = ratioList[status][0];
+    const newHeight = ratioList[status][1];
+    setWidth(newWidth);
+    setHeight(newHeight);
 
-  let width = ratioList[ratioStatus][0];
-  let height = ratioList[ratioStatus][1];
+    setTextPosition({
+      1: [0, 402.094 / 2 - 70, 0, 402.094 / 2 + 20, 0, 402.094 / 2 + 160], // Velog
+      2: [0, 400 / 2 - 60, 0, 400 / 2 + 20, 0, 400 / 2 + 160], // 1:1
+      3: [0, 400 / 2 - 70, 0, 400 / 2 + 20, 0, 400 / 2 + 160], // 4:3
+      4: [0, 340 / 2 - 90, 0, 340 / 2, 0, 340 / 2 + 135], // Youtube
+    });
+
+    setLinePosition({
+      1: [768 / 2 - 150, 402.094 / 2, 768 / 2 + 150, 402.094 / 2],
+      2: [400 / 2 - 130, 400 / 2, 400 / 2 + 130, 400 / 2],
+      3: [533.3333 / 2 - 155, 400 / 2, 533.3333 / 2 + 155, 400 / 2],
+      4: [640 / 2 - 155, 340 / 2 - 20, 640 / 2 + 150, 340 / 2 - 20],
+    });
+  };
 
   /* 레이아웃 로직 */
   type LayoutKey = 1 | 2 | 3 | 4;
@@ -116,17 +138,44 @@ const App = () => {
     3: [55, 35, 22], // 4:3
     4: [55, 35, 23], // Youtube 16:9
   };
-  const textPositionList = {
-    1: [0, height / 2 - 70, 0, height / 2 + 20, 0, height / 2 + 160], // Velog
-    2: [0, height / 2 - 70, 0, height / 2 + 20, 0, height / 2 + 160], // 1:1
-    3: [0, height / 2 - 70, 0, height / 2 + 20, 0, height / 2 + 160], // 4:3
-    4: [0, height / 2 - 90, 0, height / 2, 0, height / 2 + 135], // Youtube
-  };
-  const linePositionList = {
-    1: [width / 2 - 150, height / 2, width / 2 + 150, height / 2],
-    2: [width / 2 - 150, height / 2, width / 2 + 150, height / 2],
-    3: [width / 2 - 150, height / 2, width / 2 + 150, height / 2],
-    4: [width / 2 - 150, height / 2 - 20, width / 2 + 150, height / 2 - 20],
+  const [isDragging, setIsDragging] = useState(false);
+  const [textPosition, setTextPosition] = useState({
+    1: [0, 402.094 / 2 - 70, 0, 402.094 / 2 + 20, 0, 402.094 / 2 + 160], // Velog
+    2: [0, 400 / 2 - 60, 0, 400 / 2 + 20, 0, 400 / 2 + 160], // 1:1
+    3: [0, 400 / 2 - 70, 0, 400 / 2 + 20, 0, 400 / 2 + 160], // 4:3
+    4: [0, 340 / 2 - 90, 0, 340 / 2, 0, 340 / 2 + 135], // Youtube
+  });
+  const [linePosition, setLinePosition] = useState({
+    1: [768 / 2 - 150, 402.094 / 2, 768 / 2 + 150, 402.094 / 2],
+    2: [400 / 2 - 130, 400 / 2, 400 / 2 + 130, 400 / 2],
+    3: [533.3333 / 2 - 155, 400 / 2, 533.3333 / 2 + 155, 400 / 2],
+    4: [640 / 2 - 155, 340 / 2 - 20, 640 / 2 + 150, 340 / 2 - 20],
+  });
+
+  // Add a key state to force re-renders
+  const [resetKey, setResetKey] = useState(0);
+
+  const onClickReset = () => {
+    // Create new position objects
+    const newTextPosition = {
+      1: [0, 402.094 / 2 - 70, 0, 402.094 / 2 + 20, 0, 402.094 / 2 + 160], // Velog
+      2: [0, 400 / 2 - 60, 0, 400 / 2 + 20, 0, 400 / 2 + 160], // 1:1
+      3: [0, 400 / 2 - 70, 0, 400 / 2 + 20, 0, 400 / 2 + 160], // 4:3
+      4: [0, 340 / 2 - 90, 0, 340 / 2, 0, 340 / 2 + 135], // Youtube
+    };
+
+    const newLinePosition = {
+      1: [768 / 2 - 150, 402.094 / 2, 768 / 2 + 150, 402.094 / 2],
+      2: [400 / 2 - 130, 400 / 2, 400 / 2 + 130, 400 / 2],
+      3: [533.3333 / 2 - 155, 400 / 2, 533.3333 / 2 + 155, 400 / 2],
+      4: [640 / 2 - 155, 340 / 2 - 20, 640 / 2 + 150, 340 / 2 - 20],
+    };
+
+    setTextPosition(newTextPosition);
+    setLinePosition(newLinePosition);
+
+    // Increment reset key to force re-render
+    setResetKey((prev) => prev + 1);
   };
 
   return (
@@ -139,12 +188,12 @@ const App = () => {
         <div className="bg-white px-14 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col">
           {/* <img src={thumbnail} alt="thumbnail" className="h-[27rem]" /> */}
           <div className="flex items-center justify-center">
-            <Stage width={width} height={height}>
+            <Stage width={width} height={height} key={resetKey}>
               <Layer>
                 <Image image={testImage} width={width} height={height} />
                 <Text
-                  x={textPositionList[ratioStatus][0]}
-                  y={textPositionList[ratioStatus][1]}
+                  x={textPosition[ratioStatus][0]}
+                  y={textPosition[ratioStatus][1]}
                   width={width}
                   text="제목을 입력하세요"
                   fontSize={textSizeList[ratioStatus][0]}
@@ -153,22 +202,52 @@ const App = () => {
                   fontFamily="Pretendard Variable"
                   align="center"
                   verticalAlign="middle"
+                  onDragStart={() => setIsDragging(true)}
+                  onDragEnd={(e) => {
+                    setIsDragging(false);
+                    setTextPosition({
+                      ...textPosition,
+                      [ratioStatus]: [
+                        e.target.x(),
+                        e.target.y(),
+                        textPosition[ratioStatus][2],
+                        textPosition[ratioStatus][3],
+                        textPosition[ratioStatus][4],
+                        textPosition[ratioStatus][5],
+                      ],
+                    });
+                  }}
                   draggable
                 />
                 <Line
                   points={[
-                    linePositionList[ratioStatus][0],
-                    linePositionList[ratioStatus][1],
-                    linePositionList[ratioStatus][2],
-                    linePositionList[ratioStatus][3],
+                    linePosition[ratioStatus][0],
+                    linePosition[ratioStatus][1],
+                    linePosition[ratioStatus][2],
+                    linePosition[ratioStatus][3],
                   ]}
                   stroke="#ffffff"
-                  strokeWidth={1.5}
+                  strokeWidth={2}
+                  onDragStart={() => setIsDragging(true)}
+                  onDragEnd={(e) => {
+                    setIsDragging(false);
+                    const line =
+                      e.target as import("konva/lib/shapes/Line").Line;
+                    setLinePosition({
+                      ...linePosition,
+                      [ratioStatus]: [
+                        line.points()[0],
+                        line.points()[1],
+                        line.points()[2],
+                        line.points()[3],
+                      ],
+                    });
+                  }}
                   draggable
                 />
                 <Text
-                  x={textPositionList[ratioStatus][2]}
-                  y={textPositionList[ratioStatus][3]}
+                  x={textPosition[ratioStatus][2]}
+                  y={textPosition[ratioStatus][3]}
                   width={width}
                   text="부제목을 입력하세요"
                   fontSize={textSizeList[ratioStatus][1]}
@@ -177,11 +256,26 @@ const App = () => {
                   fontFamily="Pretendard Variable"
                   align="center"
                   verticalAlign="middle"
+                  onDragStart={() => setIsDragging(true)}
+                  onDragEnd={(e) => {
+                    setIsDragging(false);
+                    setTextPosition({
+                      ...textPosition,
+                      [ratioStatus]: [
+                        textPosition[ratioStatus][0],
+                        textPosition[ratioStatus][1],
+                        e.target.x(),
+                        e.target.y(),
+                        textPosition[ratioStatus][4],
+                        textPosition[ratioStatus][5],
+                      ],
+                    });
+                  }}
                   draggable
                 />
                 <Text
-                  x={textPositionList[ratioStatus][4]}
-                  y={textPositionList[ratioStatus][5]}
+                  x={textPosition[ratioStatus][4]}
+                  y={textPosition[ratioStatus][5]}
                   width={width}
                   text="소제목을 입력하세요"
                   fontSize={textSizeList[ratioStatus][2]}
@@ -190,6 +284,21 @@ const App = () => {
                   fontFamily="Pretendard Variable"
                   align="center"
                   verticalAlign="middle"
+                  onDragStart={() => setIsDragging(true)}
+                  onDragEnd={(e) => {
+                    setIsDragging(false);
+                    setTextPosition({
+                      ...textPosition,
+                      [ratioStatus]: [
+                        textPosition[ratioStatus][0],
+                        textPosition[ratioStatus][1],
+                        textPosition[ratioStatus][2],
+                        textPosition[ratioStatus][3],
+                        e.target.x(),
+                        e.target.y(),
+                      ],
+                    });
+                  }}
                   draggable
                 />
               </Layer>
@@ -217,6 +326,9 @@ const App = () => {
                 height="1.75rem"
                 fill="#D9D9D9"
                 className="ml-2 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-black"
+                onClick={() => {
+                  onClickReset();
+                }}
               />
             </div>
             <div className="flex flex-row items-center">
@@ -249,6 +361,7 @@ const App = () => {
                 width={width}
                 height={height}
               />
+              {width} {height}
             </div>
             <div className="flex flex-col items-start ml-6">
               {/*레이아웃 */}
