@@ -22,8 +22,18 @@ import BackgroundDropdown from "./components/background/BackgroundDropdown";
 import TextDropdown from "./components/text/TextDropdown";
 import { Stage, Layer, Image, Text, Line } from "react-konva";
 import useImage from "use-image";
-import { textPositionList1, textPositionList2, textPositionList3, textPositionList4 } from "./components/layout/TextPositionList";
-import { linePositionList1, linePositionList2, linePositionList3, linePositionList4 } from "./components/layout/LinePositionList";
+import {
+  textPositionList1,
+  textPositionList2,
+  textPositionList3,
+  textPositionList4,
+} from "./components/layout/TextPositionList";
+import {
+  linePositionList1,
+  linePositionList2,
+  linePositionList3,
+  linePositionList4,
+} from "./components/layout/LinePositionList";
 
 // LocalStorage keys
 const STORAGE_KEY_RATIO = "thumbs-up-ratio";
@@ -188,23 +198,24 @@ const App = () => {
   const [resetKey, setResetKey] = useState(0);
 
   const onClickReset = () => {
-    // Create new position objects
-    const newTextPosition = {
-      1: [0, 402.094 / 2 - 70, 0, 402.094 / 2 + 20, 0, 402.094 / 2 + 160], // Velog
-      2: [0, 400 / 2 - 60, 0, 400 / 2 + 20, 0, 400 / 2 + 160], // 1:1
-      3: [0, 400 / 2 - 70, 0, 400 / 2 + 20, 0, 400 / 2 + 160], // 4:3
-      4: [0, 340 / 2 - 90, 0, 340 / 2, 0, 340 / 2 + 135], // Youtube
+    const positionMappings = {
+      text: {
+        1: textPositionList1,
+        2: textPositionList2,
+        3: textPositionList3,
+        4: textPositionList4,
+      },
+      line: {
+        1: linePositionList1,
+        2: linePositionList2,
+        3: linePositionList3,
+        4: linePositionList4,
+      },
     };
 
-    const newLinePosition = {
-      1: [768 / 2 - 150, 402.094 / 2, 768 / 2 + 150, 402.094 / 2],
-      2: [400 / 2 - 130, 400 / 2, 400 / 2 + 130, 400 / 2],
-      3: [533.3333 / 2 - 155, 400 / 2, 533.3333 / 2 + 155, 400 / 2],
-      4: [640 / 2 - 155, 340 / 2 - 20, 640 / 2 + 150, 340 / 2 - 20],
-    };
-
-    setTextPosition(newTextPosition);
-    setLinePosition(newLinePosition);
+    // Set positions directly using the ratioStatus as a key
+    setTextPosition(positionMappings.text[layout]);
+    setLinePosition(positionMappings.line[layout]);
 
     // Increment reset key to force re-render
     setResetKey((prev) => prev + 1);
@@ -212,7 +223,10 @@ const App = () => {
 
   return (
     <div className="relative w-full min-h-screen overflow-hidden flex items-center justify-center">
-      <div className="absolute inset-0 bg-cover w-full h-full -z-10 blur-xs scale-400" style={{ backgroundImage: `url(${bgImage})` }} />
+      <div
+        className="absolute inset-0 bg-cover w-full h-full -z-10 blur-xs scale-400"
+        style={{ backgroundImage: `url(${bgImage})` }}
+      />
       <div className="flex items-center justify-center py-10">
         <div className="bg-white px-14 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col">
           <div className="flex items-center justify-center">
@@ -431,9 +445,15 @@ const App = () => {
                 className="flex flex-row items-center justify-between px-3 bg-[#f6f6f6] rounded-xl w-[17rem] h-12 mt-4 hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out"
               >
                 <p className="text-xl font-light">{layoutList[layout]}</p>
-                {layoutView ? <Darrow width="1.8rem" height="1.8rem" className="rotate-180" /> : <Darrow width="1.8rem" height="1.8rem" />}
+                {layoutView ? (
+                  <Darrow width="1.8rem" height="1.8rem" className="rotate-180" />
+                ) : (
+                  <Darrow width="1.8rem" height="1.8rem" />
+                )}
               </div>
-              {layoutView && <LayoutDropdown status={layoutView} setLayout={onClickLayoutDropdownMenu} currentLayout={layout} />}
+              {layoutView && (
+                <LayoutDropdown status={layoutView} setLayout={onClickLayoutDropdownMenu} currentLayout={layout} />
+              )}
             </div>
           </div>
           <div className="flex flex-row items-start mt-10 justify-between">
@@ -449,7 +469,11 @@ const App = () => {
                   className="flex flex-row items-center justify-between px-3 bg-[#F2F2F2] rounded-xl w-[13rem] h-12 hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out"
                 >
                   <p className="text-xl font-light">{bgList[bg]}</p>
-                  {bgView ? <Darrow width="1.8rem" height="1.8rem" className="rotate-180" /> : <Darrow width="1.8rem" height="1.8rem" />}
+                  {bgView ? (
+                    <Darrow width="1.8rem" height="1.8rem" className="rotate-180" />
+                  ) : (
+                    <Darrow width="1.8rem" height="1.8rem" />
+                  )}
                 </div>
                 <ResetBG
                   width="2rem"
@@ -471,7 +495,11 @@ const App = () => {
                   className="flex flex-row items-center justify-between px-3 bg-[#F2F2F2] rounded-xl w-[12.5rem] h-12 hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out"
                 >
                   <p className="text-xl font-light">{textList[text]}</p>
-                  {textView ? <Darrow width="1.8rem" height="1.8rem" className="rotate-180" /> : <Darrow width="1.8rem" height="1.8rem" />}
+                  {textView ? (
+                    <Darrow width="1.8rem" height="1.8rem" className="rotate-180" />
+                  ) : (
+                    <Darrow width="1.8rem" height="1.8rem" />
+                  )}
                 </div>
                 <input
                   type="number"
