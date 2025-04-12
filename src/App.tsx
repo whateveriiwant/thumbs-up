@@ -78,20 +78,6 @@ const App = () => {
     const newHeight = ratioList[status][1];
     setWidth(newWidth);
     setHeight(newHeight);
-
-    // setTextPosition({
-    //   1: [0, 402.094 / 2 - 70, 0, 402.094 / 2 + 20, 0, 402.094 / 2 + 160], // Velog
-    //   2: [0, 400 / 2 - 60, 0, 400 / 2 + 20, 0, 400 / 2 + 160], // 1:1
-    //   3: [0, 400 / 2 - 70, 0, 400 / 2 + 20, 0, 400 / 2 + 160], // 4:3
-    //   4: [0, 340 / 2 - 90, 0, 340 / 2, 0, 340 / 2 + 135], // Youtube
-    // });
-
-    // setLinePosition({
-    //   1: [768 / 2 - 150, 402.094 / 2, 768 / 2 + 150, 402.094 / 2],
-    //   2: [400 / 2 - 130, 400 / 2, 400 / 2 + 130, 400 / 2],
-    //   3: [533.3333 / 2 - 155, 400 / 2, 533.3333 / 2 + 155, 400 / 2],
-    //   4: [640 / 2 - 155, 340 / 2 - 20, 640 / 2 + 150, 340 / 2 - 20],
-    // });
   };
 
   /* 레이아웃 로직 */
@@ -123,7 +109,7 @@ const App = () => {
     // Set positions directly using the ratioStatus as a key
     setTextPosition(positionMappings.text[layout]);
     setLinePosition(positionMappings.line[layout]);
-  }, [layout]);
+  }, [layout, ratioStatus]); // 레이아웃, 비율 바뀔 때 마다 위치 재설정
 
   const layoutList = {
     1: "제목 + 부제목 + 소제목",
