@@ -22,18 +22,8 @@ import BackgroundDropdown from "./components/background/BackgroundDropdown";
 import TextDropdown from "./components/text/TextDropdown";
 import { Stage, Layer, Image, Text, Line } from "react-konva";
 import useImage from "use-image";
-import {
-  textPositionList1,
-  textPositionList2,
-  textPositionList3,
-  textPositionList4,
-} from "./components/layout/TextPositionList";
-import {
-  linePositionList1,
-  linePositionList2,
-  linePositionList3,
-  linePositionList4,
-} from "./components/layout/LinePositionList";
+import { textPositionList1, textPositionList2, textPositionList3, textPositionList4 } from "./components/layout/TextPositionList";
+import { linePositionList1, linePositionList2, linePositionList3, linePositionList4 } from "./components/layout/LinePositionList";
 
 // LocalStorage keys
 const STORAGE_KEY_RATIO = "thumbs-up-ratio";
@@ -222,10 +212,7 @@ const App = () => {
 
   return (
     <div className="relative w-full min-h-screen overflow-hidden flex items-center justify-center">
-      <div
-        className="absolute inset-0 bg-cover w-full h-full -z-10 blur-xs scale-400"
-        style={{ backgroundImage: `url(${bgImage})` }}
-      />
+      <div className="absolute inset-0 bg-cover w-full h-full -z-10 blur-xs scale-400" style={{ backgroundImage: `url(${bgImage})` }} />
       <div className="flex items-center justify-center py-10">
         <div className="bg-white px-14 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col">
           <div className="flex items-center justify-center">
@@ -279,8 +266,7 @@ const App = () => {
                     strokeWidth={2}
                     onDragStart={() => setIsDragging(true)}
                     onDragMove={(e) => {
-                      const line =
-                        e.target as import("konva/lib/shapes/Line").Line;
+                      const line = e.target as import("konva/lib/shapes/Line").Line;
                       const points = line.points();
 
                       // Calculate center Y position
@@ -294,16 +280,10 @@ const App = () => {
                     }}
                     onDragEnd={(e) => {
                       setIsDragging(false);
-                      const line =
-                        e.target as import("konva/lib/shapes/Line").Line;
+                      const line = e.target as import("konva/lib/shapes/Line").Line;
                       setLinePosition({
                         ...linePosition,
-                        [ratioStatus]: [
-                          line.points()[0],
-                          line.points()[1],
-                          line.points()[2],
-                          line.points()[3],
-                        ],
+                        [ratioStatus]: [line.points()[0], line.points()[1], line.points()[2], line.points()[3]],
                       });
                     }}
                     draggable
@@ -437,12 +417,7 @@ const App = () => {
                 <Scale width="2rem" height="2rem" />
                 <p className="ml-2 text-2xl font-semibold">비율</p>
               </div>
-              <Ratio
-                ratioStatus={ratioStatus}
-                updateRatio={onClickRatio}
-                width={width}
-                height={height}
-              />
+              <Ratio ratioStatus={ratioStatus} updateRatio={onClickRatio} width={width} height={height} />
             </div>
             <div className="flex flex-col items-start ml-6">
               {/*레이아웃 */}
@@ -456,23 +431,9 @@ const App = () => {
                 className="flex flex-row items-center justify-between px-3 bg-[#f6f6f6] rounded-xl w-[17rem] h-12 mt-4 hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out"
               >
                 <p className="text-xl font-light">{layoutList[layout]}</p>
-                {layoutView ? (
-                  <Darrow
-                    width="1.8rem"
-                    height="1.8rem"
-                    className="rotate-180"
-                  />
-                ) : (
-                  <Darrow width="1.8rem" height="1.8rem" />
-                )}
+                {layoutView ? <Darrow width="1.8rem" height="1.8rem" className="rotate-180" /> : <Darrow width="1.8rem" height="1.8rem" />}
               </div>
-              {layoutView && (
-                <LayoutDropdown
-                  status={layoutView}
-                  setLayout={onClickLayoutDropdownMenu}
-                  currentLayout={layout}
-                />
-              )}
+              {layoutView && <LayoutDropdown status={layoutView} setLayout={onClickLayoutDropdownMenu} currentLayout={layout} />}
             </div>
           </div>
           <div className="flex flex-row items-start mt-10 justify-between">
@@ -488,15 +449,7 @@ const App = () => {
                   className="flex flex-row items-center justify-between px-3 bg-[#F2F2F2] rounded-xl w-[13rem] h-12 hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out"
                 >
                   <p className="text-xl font-light">{bgList[bg]}</p>
-                  {bgView ? (
-                    <Darrow
-                      width="1.8rem"
-                      height="1.8rem"
-                      className="rotate-180"
-                    />
-                  ) : (
-                    <Darrow width="1.8rem" height="1.8rem" />
-                  )}
+                  {bgView ? <Darrow width="1.8rem" height="1.8rem" className="rotate-180" /> : <Darrow width="1.8rem" height="1.8rem" />}
                 </div>
                 <ResetBG
                   width="2rem"
@@ -505,13 +458,7 @@ const App = () => {
                   className="ml-2 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-black"
                 />
               </div>
-              {bgView && (
-                <BackgroundDropdown
-                  status={bgView}
-                  setBg={onClickBgDropdownMenu}
-                  currentBg={bg}
-                />
-              )}
+              {bgView && <BackgroundDropdown status={bgView} setBg={onClickBgDropdownMenu} currentBg={bg} />}
             </div>
             <div className="flex flex-col items-start">
               <div className="flex flex-row justify-center items-center">
@@ -524,15 +471,7 @@ const App = () => {
                   className="flex flex-row items-center justify-between px-3 bg-[#F2F2F2] rounded-xl w-[12.5rem] h-12 hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out"
                 >
                   <p className="text-xl font-light">{textList[text]}</p>
-                  {textView ? (
-                    <Darrow
-                      width="1.8rem"
-                      height="1.8rem"
-                      className="rotate-180"
-                    />
-                  ) : (
-                    <Darrow width="1.8rem" height="1.8rem" />
-                  )}
+                  {textView ? <Darrow width="1.8rem" height="1.8rem" className="rotate-180" /> : <Darrow width="1.8rem" height="1.8rem" />}
                 </div>
                 <input
                   type="number"
@@ -546,13 +485,7 @@ const App = () => {
                   className="w-[4rem] h-12 ml-2 focus:outline-none px-2 text-xl font-light text-center bg-white border border-[#D9D9D9] rounded-lg"
                 />
               </div>
-              {textView && (
-                <TextDropdown
-                  status={textView}
-                  setText={onClickTextDropdownMenu}
-                  currentText={text}
-                />
-              )}
+              {textView && <TextDropdown status={textView} setText={onClickTextDropdownMenu} currentText={text} />}
               <div className="flex flex-row mt-3 justify-between w-[12.5rem]">
                 <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg">
                   <Bold width="1.8rem" height="1.8rem" />
@@ -572,25 +505,21 @@ const App = () => {
           <div className="flex flex-row mt-10 items-end mb-2">
             {/* Footer */}
             <div className="flex flex-col items-start">
-              <p className="text-2xl font-semibold text-[#C5C3C3]">
-                Thumbs Up! 👍
-              </p>
-              <p className="text-sm font-extralight text-[#C5C3C3]">
-                Your Best Thumbnail Maker
-              </p>
-              <p className="text-md font-light text-[#C5C3C3]">
-                Made by Seungjun Jeong With ❤️
-              </p>
+              <p className="text-2xl font-semibold text-[#C5C3C3]">Thumbs Up! 👍</p>
+              <p className="text-sm font-extralight text-[#C5C3C3]">Your Best Thumbnail Maker</p>
+              <p className="text-md font-light text-[#C5C3C3]">Made by Seungjun Jeong With ❤️</p>
             </div>
             <div className="flex flex-row ml-3 justify-between items-center w-[7.5rem]">
-              {/* prettier-ignore */}
               <GithubFooter
-                fill="#C5C3C3" width="2.5rem" height="2.5rem"
+                fill="#C5C3C3"
+                width="2.5rem"
+                height="2.5rem"
                 className="transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-[#24292E]"
               />
-              {/* prettier-ignore */}
               <LinkedInFooter
-                fill="#C5C3C3" width="2.5rem" height="2.5rem"
+                fill="#C5C3C3"
+                width="2.5rem"
+                height="2.5rem"
                 className="-ml-[0.24rem] transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-[#0077B5]"
               />
               {/* prettier-ignore */}
