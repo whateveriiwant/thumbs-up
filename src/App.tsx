@@ -11,9 +11,6 @@ import Bold from "./assets/bold.svg?react";
 import Underline from "./assets/underline.svg?react";
 import AlignLeft from "./assets/alignLeft.svg?react";
 import Palette from "./assets/palette.svg?react";
-import GithubFooter from "./assets/footer/githubFooter.svg?react";
-import LinkedInFooter from "./assets/footer/linkedinFooter.svg?react";
-import VelogFooter from "./assets/footer/velogFooter.svg?react";
 import Darrow from "./assets/dArrow.svg?react";
 import Ratio from "./components/ratio/Ratio";
 import { useEffect, useState } from "react";
@@ -34,6 +31,7 @@ import {
   linePositionList3,
   linePositionList4,
 } from "./components/layout/LinePositionList";
+import Footer from "./components/footer/Footer";
 
 // LocalStorage keys
 const STORAGE_KEY_RATIO = "thumbs-up-ratio";
@@ -538,25 +536,7 @@ const App = () => {
               <p className="text-sm font-extralight text-[#C5C3C3]">Your Best Thumbnail Maker</p>
               <p className="text-md font-light text-[#C5C3C3]">Made by Seungjun Jeong With ❤️</p>
             </div>
-            <div className="flex flex-row ml-3 justify-between items-center w-[7.5rem]">
-              <GithubFooter
-                fill="#C5C3C3"
-                width="2.5rem"
-                height="2.5rem"
-                className="transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-[#24292E]"
-              />
-              <LinkedInFooter
-                fill="#C5C3C3"
-                width="2.5rem"
-                height="2.5rem"
-                className="-ml-[0.24rem] transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-[#0077B5]"
-              />
-              {/* prettier-ignore */}
-              <VelogFooter
-                fill="#C5C3C3" width="1.9rem" height="1.9rem"
-                className="transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-[#20C997]"
-              />
-            </div>
+            <Footer />
           </div>
         </div>
       </div>
