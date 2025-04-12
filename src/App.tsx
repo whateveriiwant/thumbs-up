@@ -529,15 +529,7 @@ const App = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-row mt-10 items-end mb-2">
-            {/* Footer */}
-            <div className="flex flex-col items-start">
-              <p className="text-2xl font-semibold text-[#C5C3C3]">Thumbs Up! 👍</p>
-              <p className="text-sm font-extralight text-[#C5C3C3]">Your Best Thumbnail Maker</p>
-              <p className="text-md font-light text-[#C5C3C3]">Made by Seungjun Jeong With ❤️</p>
-            </div>
-            <Footer />
-          </div>
+          <Footer />
         </div>
       </div>
     </div>
