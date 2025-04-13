@@ -31,7 +31,7 @@ import {
   linePositionList4,
 } from "./components/layout/LinePositionList";
 import Footer from "./components/footer/Footer";
-// test
+
 // LocalStorage keys
 const STORAGE_KEY_RATIO = "thumbs-up-ratio";
 const STORAGE_KEY_LAYOUT = "thumbs-up-layout";
@@ -492,13 +492,15 @@ const App = () => {
                     <Darrow width="1.8rem" height="1.8rem" />
                   )}
                 </div>
-                <ResetBG
-                  onClick={() => onClickBgImageReset()}
-                  width="2rem"
-                  height="2rem"
-                  fill="#A9A9A9"
-                  className="ml-2 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-black"
-                />
+                {bg === 1 && (
+                  <ResetBG
+                    onClick={() => onClickBgImageReset()}
+                    width="2rem"
+                    height="2rem"
+                    fill="#A9A9A9"
+                    className="ml-2 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-black"
+                  />
+                )}
               </div>
               {bgView && <BackgroundDropdown status={bgView} setBg={onClickBgDropdownMenu} currentBg={bg} />}
             </div>
