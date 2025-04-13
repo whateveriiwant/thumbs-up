@@ -1,7 +1,7 @@
 const BackgroundDropdown = (props: any) => {
   return (
     <div
-      className={`absolute mt-[6.3rem] w-[13rem] h-[9rem] overflow-hidden z-10 shadow-xl bg-white rounded-xl ${
+      className={`absolute mt-[6.3rem] w-[13rem] h-[12rem] overflow-hidden z-10 shadow-xl bg-white rounded-xl ${
         props.status ? "animate-dropdown" : "animate-dropdown-out"
       }`}
     >
@@ -23,6 +23,12 @@ const BackgroundDropdown = (props: any) => {
           className="flex items-center w-full h-12 px-3 bg-white hover:bg-[#DFE3FF] transition-colors duration-200 ease-in-out rounded-xl"
         >
           <p className="text-xl font-light">그라디언트 배경</p>
+        </div>
+        <div
+          onClick={() => props.setBg(4)}
+          className="flex items-center w-full h-12 px-3 bg-white hover:bg-[#DFE3FF] transition-colors duration-200 ease-in-out rounded-xl"
+        >
+          <p className="text-xl font-light">이미지 삽입</p>
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ import AlignLeft from "./assets/alignLeft.svg?react";
 import Palette from "./assets/palette.svg?react";
 import Darrow from "./assets/dArrow.svg?react";
 import Ratio from "./components/ratio/Ratio";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LayoutDropdown from "./components/layout/LayoutDropdown";
 import BackgroundDropdown from "./components/background/BackgroundDropdown";
 import TextDropdown from "./components/text/TextDropdown";
@@ -135,6 +135,7 @@ const App = () => {
     1: "랜덤 배경 이미지",
     2: "단색 배경",
     3: "그라디언트 배경",
+    4: "이미지 삽입",
   };
 
   const onClickBgDropdown = () => {
@@ -173,6 +174,46 @@ const App = () => {
     const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
     setBgColor(randomColor);
   };
+
+  // 그라디언트 배경
+  const [bgGradientStart, setBgGradientStart] = useState("#256b74");
+  const [bgGradientEnd, setBgGradientEnd] = useState("#668fD6");
+  const [bgGradientShape, setBgGradientShape] = useState("Linear"); // Linear or Radial
+
+  const [isStartOpen, setIsStartOpen] = useState(false);
+  const [isEndOpen, setIsEndOpen] = useState(false);
+
+  const onClickGradientStart = () => {
+    setIsStartOpen(!isStartOpen);
+  };
+  const onClickGradientEnd = () => {
+    setIsEndOpen(!isEndOpen);
+  };
+
+  const inSection = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const clickOutside = (e: MouseEvent) => {
+      if (isStartOpen && !inSection.current?.contains(e.target as Node)) {
+        setIsStartOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", clickOutside);
+    return () => {
+      document.removeEventListener("mousedown", clickOutside);
+    };
+  }, [isStartOpen]);
+
+  useEffect(() => {
+    const clickOutside = (e: MouseEvent) => {
+      if (isEndOpen && !inSection.current?.contains(e.target as Node)) {
+        setIsEndOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", clickOutside);
+    return () => {
+      document.removeEventListener("mousedown", clickOutside);
+    };
+  }, [isEndOpen]);
 
   /* 텍스트 로직 */
   type TextKey = 1 | 2 | 3 | 4;
@@ -257,6 +298,12 @@ const App = () => {
       {bg === 2 && (
         <div className="absolute inset-0 bg-cover w-full h-full -z-10 scale-150" style={{ backgroundColor: bgColor }} />
       )}
+      {bg === 3 && (
+        <div
+          className="absolute inset-0 bg-cover w-full h-full -z-10 scale-150"
+          style={{ background: `linear-gradient(to right, ${bgGradientStart}, ${bgGradientEnd})` }}
+        />
+      )}
       <div className="flex items-center justify-center py-10">
         <div className="bg-white px-14 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col shadow-2xl">
           <div className="flex items-center justify-center">
@@ -264,6 +311,15 @@ const App = () => {
               <Layer>
                 {bg === 1 && <Image image={bgImage} width={width} height={height} />}
                 {bg === 2 && <Rect width={width} height={height} fill={bgColor} />}
+                {bg === 3 && (
+                  <Rect
+                    width={width}
+                    height={height}
+                    fillLinearGradientStartPoint={{ x: 0, y: 0 }}
+                    fillLinearGradientEndPoint={{ x: width, y: height }}
+                    fillLinearGradientColorStops={[0, bgGradientStart, 1, bgGradientEnd]}
+                  />
+                )}
                 <Text
                   x={textPosition[ratioStatus][0]}
                   y={textPosition[ratioStatus][1]}
@@ -545,6 +601,56 @@ const App = () => {
                           }}
                           className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-0.5 py-0.5 bg-white border border-[#D9D9D9] w-20 h-7 rounded-md text-center text-black font-light text-md"
                         />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {bg === 3 && (
+                <div className="flex flex-col mt-1">
+                  <p
+                    onClick={() => onClickRandomBgColor()}
+                    className="text-sm text-[#bbbbbb] hover:cursor-pointer hover:text-[#A9A9A9] transition-colors duration-200"
+                  >
+                    무작위 색 선택
+                  </p>
+                  <div className="flex flex-row items-start justify-start mt-1">
+                    <div className="flex flex-col items-start justify-start">
+                      <div
+                        className="w-[13rem] h-10 rounded-lg"
+                        style={{
+                          background: `linear-gradient(to right, ${bgGradientStart}, ${bgGradientEnd})`,
+                        }}
+                      />
+                      <div className="w-[13rem] mt-2 flex flex-row items-center justify-between">
+                        <div className="flex flex-col">
+                          <div
+                            onClick={() => onClickGradientStart()}
+                            className="w-8 h-8 rounded-lg shadow hover:cursor-pointer"
+                            style={{ backgroundColor: bgGradientStart }}
+                          />
+                          {isStartOpen && (
+                            <div
+                              className={`z-10 absolute mt-9 overflow-hidden w-auto h-auto animate-dropdown transition-opacity duration-1000 ease-in-out`}
+                            >
+                              <HexColorPicker color={bgGradientStart} onChange={setBgGradientStart} />
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex flex-col items-end">
+                          <div
+                            onClick={() => onClickGradientEnd()}
+                            className="w-8 h-8 rounded-lg shadow hover:cursor-pointer"
+                            style={{ backgroundColor: bgGradientEnd }}
+                          />
+                          {isEndOpen && (
+                            <div
+                              className={`z-10 absolute mt-9 overflow-hidden w-auto h-auto animate-dropdown transition-opacity duration-1000 ease-in-out`}
+                            >
+                              <HexColorPicker color={bgGradientEnd} onChange={setBgGradientEnd} />
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
