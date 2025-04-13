@@ -178,7 +178,6 @@ const App = () => {
   // 그라디언트 배경
   const [bgGradientStart, setBgGradientStart] = useState("#256b74");
   const [bgGradientEnd, setBgGradientEnd] = useState("#668fD6");
-  const [bgGradientShape, setBgGradientShape] = useState("Linear"); // Linear or Radial
 
   const [isStartOpen, setIsStartOpen] = useState(false);
   const [isEndOpen, setIsEndOpen] = useState(false);
@@ -631,6 +630,7 @@ const App = () => {
                           />
                           {isStartOpen && (
                             <div
+                              ref={inSection}
                               className={`z-10 absolute mt-9 overflow-hidden w-auto h-auto animate-dropdown transition-opacity duration-1000 ease-in-out`}
                             >
                               <HexColorPicker color={bgGradientStart} onChange={setBgGradientStart} />
@@ -645,6 +645,7 @@ const App = () => {
                           />
                           {isEndOpen && (
                             <div
+                              ref={inSection}
                               className={`z-10 absolute mt-9 overflow-hidden w-auto h-auto animate-dropdown transition-opacity duration-1000 ease-in-out`}
                             >
                               <HexColorPicker color={bgGradientEnd} onChange={setBgGradientEnd} />
