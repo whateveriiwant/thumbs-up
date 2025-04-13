@@ -258,7 +258,7 @@ const App = () => {
         <div className="absolute inset-0 bg-cover w-full h-full -z-10 scale-150" style={{ backgroundColor: bgColor }} />
       )}
       <div className="flex items-center justify-center py-10">
-        <div className="bg-white px-14 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col">
+        <div className="bg-white px-14 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col shadow-2xl">
           <div className="flex items-center justify-center">
             <Stage width={width} height={height} key={resetKey}>
               <Layer>
