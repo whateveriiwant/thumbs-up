@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import LayoutDropdown from "./components/layout/LayoutDropdown";
 import BackgroundDropdown from "./components/background/BackgroundDropdown";
 import TextDropdown from "./components/text/TextDropdown";
-import { Stage, Layer, Image, Text, Line } from "react-konva";
+import { Stage, Layer, Image, Text, Line, Rect } from "react-konva";
 import useImage from "use-image";
 import {
   textPositionList1,
@@ -31,6 +31,7 @@ import {
   linePositionList4,
 } from "./components/layout/LinePositionList";
 import Footer from "./components/footer/Footer";
+import { HexColorPicker } from "react-colorful";
 
 // LocalStorage keys
 const STORAGE_KEY_RATIO = "thumbs-up-ratio";
@@ -144,7 +145,7 @@ const App = () => {
     setBg(i);
     setBgView(!bgView);
   };
-
+  // 랜덤 배경 이미지
   const bgImageList = [
     "https://i.ibb.co/yng1dRz2/default-bg.jpg",
     "https://i.ibb.co/F4JJMm76/richard-horvath-n-Wae-TF6qo0-unsplash.jpg",
@@ -164,6 +165,13 @@ const App = () => {
     } while (newIndex === index);
 
     setIndex(newIndex);
+  };
+
+  // 단색 배경
+  const [bgColor, setBgColor] = useState("#256b74");
+  const onClickRandomBgColor = () => {
+    const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+    setBgColor(randomColor);
   };
 
   /* 텍스트 로직 */
@@ -240,16 +248,22 @@ const App = () => {
 
   return (
     <div className="relative w-full min-h-screen overflow-hidden flex items-center justify-center">
-      <div
-        className="absolute inset-0 bg-cover w-full h-full -z-10 blur-xs scale-150"
-        style={{ backgroundImage: `url(${bgImageList[index]})` }}
-      />
+      {bg === 1 && (
+        <div
+          className="absolute inset-0 bg-cover w-full h-full -z-10 blur-xs scale-150"
+          style={{ backgroundImage: `url(${bgImageList[index]})` }}
+        />
+      )}
+      {bg === 2 && (
+        <div className="absolute inset-0 bg-cover w-full h-full -z-10 scale-150" style={{ backgroundColor: bgColor }} />
+      )}
       <div className="flex items-center justify-center py-10">
         <div className="bg-white px-14 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col">
           <div className="flex items-center justify-center">
             <Stage width={width} height={height} key={resetKey}>
               <Layer>
-                <Image image={bgImage} width={width} height={height} />
+                {bg === 1 && <Image image={bgImage} width={width} height={height} />}
+                {bg === 2 && <Rect width={width} height={height} fill={bgColor} />}
                 <Text
                   x={textPosition[ratioStatus][0]}
                   y={textPosition[ratioStatus][1]}
@@ -400,7 +414,7 @@ const App = () => {
           <div className="flex flex-row items-center justify-between mt-3">
             <div className="flex flex-row items-center">
               {/* 사이즈 입력 */}
-              <p className="text-xl text-[#D9D9D9] font-light mr-2">사이즈</p>
+              <p className="text-xl text-[#A9A9A9] font-light mr-2">사이즈</p>
               <input
                 type="text"
                 alt="width"
@@ -503,6 +517,39 @@ const App = () => {
                 )}
               </div>
               {bgView && <BackgroundDropdown status={bgView} setBg={onClickBgDropdownMenu} currentBg={bg} />}
+              {bg === 2 && (
+                <div className="flex flex-col mt-1">
+                  <p
+                    onClick={() => onClickRandomBgColor()}
+                    className="text-sm text-[#bbbbbb] hover:cursor-pointer hover:text-[#A9A9A9] transition-colors duration-200"
+                  >
+                    무작위 색 선택
+                  </p>
+                  <div className="flex flex-row items-start justify-start mt-2">
+                    <HexColorPicker color={bgColor} onChange={setBgColor} className="mr-2" />
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="flex flex-row items-center justify-center">
+                        <p className="text-md text-[#A9A9A9] mr-2">HEX</p>
+                        <input
+                          type="text"
+                          name="bgColor"
+                          value={bgColor}
+                          onChange={(e) => {
+                            // Validate hex color format (optional)
+                            const value = e.target.value;
+                            if (value.startsWith("#") || value === "") {
+                              setBgColor(value);
+                            } else {
+                              setBgColor("#" + value);
+                            }
+                          }}
+                          className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-0.5 py-0.5 bg-white border border-[#D9D9D9] w-20 h-7 rounded-md text-center text-black font-light text-md"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="flex flex-col items-start">
               <div className="flex flex-row justify-center items-center">
