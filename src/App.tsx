@@ -128,7 +128,7 @@ const App = () => {
   };
 
   /* 배경 로직 */
-  type BgKey = 1 | 2 | 3;
+  type BgKey = 1 | 2 | 3 | 4;
   const [bgView, setBgView] = useState(false); // 배경 드롭다운
   const [bg, setBg] = useState<BgKey>(1);
   const bgList = {
@@ -189,6 +189,13 @@ const App = () => {
     setIsEndOpen(!isEndOpen);
   };
 
+  const onClickRandomBGGradient = () => {
+    const randomColorStart = "#" + Math.floor(Math.random() * 16777215).toString(16);
+    const randomColorEnd = "#" + Math.floor(Math.random() * 16777215).toString(16);
+    setBgGradientStart(randomColorStart);
+    setBgGradientEnd(randomColorEnd);
+  };
+
   const inSection = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const clickOutside = (e: MouseEvent) => {
@@ -213,6 +220,19 @@ const App = () => {
       document.removeEventListener("mousedown", clickOutside);
     };
   }, [isEndOpen]);
+
+  const [typed, setTyped] = useState("");
+  const [bgLink, setBgLink] = useState("");
+
+  const onChangeTyped = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTyped(e.target.value);
+  };
+
+  const onClickBgLinkConfirm = () => {
+    setBgLink(typed);
+  };
+
+  const [userBgImage] = useImage(bgLink);
 
   /* 텍스트 로직 */
   type TextKey = 1 | 2 | 3 | 4;
@@ -303,6 +323,18 @@ const App = () => {
           style={{ background: `linear-gradient(to right, ${bgGradientStart}, ${bgGradientEnd})` }}
         />
       )}
+      {bg === 4 && bgLink === "" && (
+        <div
+          className="absolute inset-0 bg-cover w-full h-full -z-10 blur-xs scale-150"
+          style={{ backgroundImage: `url(${bgImageList[index]})` }}
+        />
+      )}
+      {bg === 4 && bgLink !== "" && (
+        <div
+          className="absolute inset-0 bg-cover w-full h-full -z-10 blur-xs scale-150"
+          style={{ backgroundImage: `url(${bgLink})` }}
+        />
+      )}
       <div className="flex items-center justify-center py-10">
         <div className="bg-white px-14 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col shadow-2xl">
           <div className="flex items-center justify-center">
@@ -319,6 +351,8 @@ const App = () => {
                     fillLinearGradientColorStops={[0, bgGradientStart, 1, bgGradientEnd]}
                   />
                 )}
+                {bg === 4 && bgLink === "" && <Image image={bgImage} width={width} height={height} />}
+                {bg === 4 && bgLink !== "" && <Image image={userBgImage} width={width} height={height} />}
                 <Text
                   x={textPosition[ratioStatus][0]}
                   y={textPosition[ratioStatus][1]}
@@ -608,7 +642,7 @@ const App = () => {
               {bg === 3 && (
                 <div className="flex flex-col mt-1">
                   <p
-                    onClick={() => onClickRandomBgColor()}
+                    onClick={() => onClickRandomBGGradient()}
                     className="text-sm text-[#bbbbbb] hover:cursor-pointer hover:text-[#A9A9A9] transition-colors duration-200"
                   >
                     무작위 색 선택
@@ -655,6 +689,31 @@ const App = () => {
                       </div>
                     </div>
                   </div>
+                </div>
+              )}
+              {bg === 4 && (
+                <div className="flex flex-row mt-2">
+                  <input
+                    type="text"
+                    name="link"
+                    onChange={onChangeTyped}
+                    placeholder="이미지 링크 입력"
+                    className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-2 py-0.5 bg-white border border-[#D9D9D9] w-[13rem] h-10 rounded-xl text-left text-black font-light text-md"
+                  />
+                  <button
+                    onClick={onClickBgLinkConfirm}
+                    className={`ml-2 items-center justify-center flex w-14 h-10 bg-[#f6f6f6] rounded-xl ${
+                      typed === "" ? "cursor-not-allowed" : "cursor-pointer"
+                    } hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out`}
+                  >
+                    <p
+                      className={`text-lg ${
+                        typed === "" ? "text-gray-500" : "text-black"
+                      } font-light duration-200 transition-colors`}
+                    >
+                      확인
+                    </p>
+                  </button>
                 </div>
               )}
             </div>
