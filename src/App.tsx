@@ -37,6 +37,7 @@ import { FullBackground } from "./components/background/FullBackground";
 import { Size } from "./utils/Size";
 import { ratioList } from "./components/ratio/ratioList";
 import { layoutList } from "./components/layout/layoutList";
+import ColorPicker from "./components/background/utils/ColorPicker";
 
 // LocalStorage keys
 const STORAGE_KEY_RATIO = "thumbs-up-ratio";
@@ -584,39 +585,7 @@ const App = () => {
                 )}
               </div>
               {bgView && <BackgroundDropdown status={bgView} setBg={onClickBgDropdownMenu} currentBg={bg} />}
-              {bg === 2 && (
-                <div className="flex flex-col mt-1">
-                  <p
-                    onClick={() => onClickRandomBgColor()}
-                    className="text-sm text-[#bbbbbb] hover:cursor-pointer hover:text-[#A9A9A9] transition-colors duration-200"
-                  >
-                    무작위 색 선택
-                  </p>
-                  <div className="flex flex-row items-start justify-start mt-2">
-                    <HexColorPicker color={bgColor} onChange={setBgColor} className="mr-2" />
-                    <div className="flex flex-col items-center justify-center">
-                      <div className="flex flex-row items-center justify-center">
-                        <p className="text-md text-[#A9A9A9] mr-2">HEX</p>
-                        <input
-                          type="text"
-                          name="bgColor"
-                          value={bgColor}
-                          onChange={(e) => {
-                            // Validate hex color format (optional)
-                            const value = e.target.value;
-                            if (value.startsWith("#") || value === "") {
-                              setBgColor(value);
-                            } else {
-                              setBgColor("#" + value);
-                            }
-                          }}
-                          className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-0.5 py-0.5 bg-white border border-[#D9D9D9] w-20 h-7 rounded-md text-center text-black font-light text-md"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+              {bg === 2 && <ColorPicker color={bgColor} onChange={setBgColor} onRandomColor={onClickRandomBgColor} />}
               {bg === 3 && (
                 <div className="flex flex-col mt-1">
                   <p
