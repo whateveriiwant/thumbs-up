@@ -18,6 +18,7 @@ import BackgroundDropdown from "./components/background/BackgroundDropdown";
 import TextDropdown from "./components/text/TextDropdown";
 import { Stage, Layer, Image, Text, Line, Rect } from "react-konva";
 import useImage from "use-image";
+import Konva from "konva";
 import {
   textPositionList1,
   textPositionList2,
@@ -44,6 +45,36 @@ const App = () => {
       return false;
     };
   }, []);
+
+  // 다운로드 로직
+  const downloadURI = (uri: string, name: string) => {
+    const link = document.createElement("a");
+    link.href = uri;
+    link.download = name;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  // Properly type the stageRef to access Konva Stage methods
+  const stageRef = useRef<Konva.Stage>(null);
+  const handleDownload = () => {
+    if (stageRef.current) {
+      try {
+        // Convert stage to canvas first
+        const canvas = stageRef.current.toCanvas({
+          pixelRatio: 2, // Higher resolution for better quality
+        });
+
+        // Create data URL from canvas with explicit image/png MIME type
+        const uri = canvas.toDataURL("image/png", 1.0);
+
+        downloadURI(uri, "thumbs-up-image.png");
+      } catch (error) {
+        console.error("Error during image download:", error);
+        alert("이미지 다운로드 중 오류가 발생했습니다. 다시 시도해주세요.");
+      }
+    }
+  };
 
   /* 비율 로직 */
   type RatioKey = 1 | 2 | 3 | 4;
@@ -157,7 +188,7 @@ const App = () => {
   ];
 
   const [index, setIndex] = useState(0);
-  const [bgImage] = useImage(bgImageList[index]);
+  const [bgImage] = useImage(bgImageList[index], "anonymous");
 
   const onClickBgImageReset = () => {
     let newIndex;
@@ -338,7 +369,7 @@ const App = () => {
       <div className="flex items-center justify-center py-10">
         <div className="bg-white px-14 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col shadow-2xl">
           <div className="flex items-center justify-center">
-            <Stage width={width} height={height} key={resetKey}>
+            <Stage width={width} height={height} key={resetKey} ref={stageRef}>
               <Layer>
                 {bg === 1 && <Image image={bgImage} width={width} height={height} />}
                 {bg === 2 && <Rect width={width} height={height} fill={bgColor} />}
@@ -536,6 +567,7 @@ const App = () => {
                 className="ml-2 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-black"
               />
               <Download
+                onClick={() => handleDownload()}
                 width="1.75rem"
                 height="1.75rem"
                 fill="#A9A9A9"
