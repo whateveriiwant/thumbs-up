@@ -36,6 +36,8 @@ import { HexColorPicker } from "react-colorful";
 import disableRightClick from "./utils/disableRightClick";
 import { handleCopy } from "./utils/handleCopy";
 import { handleDownload } from "./utils/handleDownload";
+import { bgImageList } from "./components/background/bgImageList";
+import { CnD } from "./utils/CnD/CnD";
 
 // LocalStorage keys
 const STORAGE_KEY_RATIO = "thumbs-up-ratio";
@@ -147,16 +149,8 @@ const App = () => {
     setBg(i);
     setBgView(!bgView);
   };
-  // 랜덤 배경 이미지
-  const bgImageList = [
-    "https://i.ibb.co/yng1dRz2/default-bg.jpg",
-    "https://i.ibb.co/F4JJMm76/richard-horvath-n-Wae-TF6qo0-unsplash.jpg",
-    "https://i.ibb.co/8DSHtRvT/milad-fakurian-u8-Jn2rz-YIps-unsplash.jpg",
-    "https://i.ibb.co/svqwBfCW/pawel-czerwinski-FAl-YVt-V1k-Rg-unsplash.jpg",
-    "https://i.ibb.co/F4YrW3kZ/engin-akyurt-Hlkuojv-P6-I-unsplash.jpg",
-    "https://i.ibb.co/0yFdX6QX/shapelined-JBKdviwe-XI-unsplash.jpg",
-  ];
 
+  // 랜덤 배경 이미지
   const [index, setIndex] = useState(0);
   const [bgImage] = useImage(bgImageList[index], "anonymous");
 
@@ -601,23 +595,7 @@ const App = () => {
                 }}
               />
             </div>
-            <div className="flex flex-row items-center">
-              {/* 복사, 다운 */}
-              <Copy
-                onClick={() => handleCopy(stageRef as React.RefObject<Konva.Stage>)}
-                width="1.75rem"
-                height="1.75rem"
-                fill="#A9A9A9"
-                className="ml-2 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-black"
-              />
-              <Download
-                onClick={() => handleDownload(stageRef as React.RefObject<Konva.Stage>)}
-                width="1.75rem"
-                height="1.75rem"
-                fill="#A9A9A9"
-                className="ml-2 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-black"
-              />
-            </div>
+            <CnD ref={stageRef} /> {/* 복사, 다운로드 */}
           </div>
           <div className="flex flex-row items-start justify-between mt-14">
             {/* 비율 + 레이아웃 묶음 */}
