@@ -33,6 +33,8 @@ import {
 } from "./components/layout/LinePositionList";
 import Footer from "./components/footer/Footer";
 import { HexColorPicker } from "react-colorful";
+import disableRightClick from "./utils/disableRightClick";
+import { handleCopy } from "./utils/handleCopy";
 
 // LocalStorage keys
 const STORAGE_KEY_RATIO = "thumbs-up-ratio";
@@ -40,45 +42,42 @@ const STORAGE_KEY_LAYOUT = "thumbs-up-layout";
 
 const App = () => {
   useEffect(() => {
-    /* 우클릭 방지 */
-    document.oncontextmenu = function () {
-      return false;
-    };
+    disableRightClick();
   }, []);
 
   // 복사 로직
-  const handleCopy = () => {
-    if (stageRef.current) {
-      try {
-        // Convert stage to canvas first
-        const canvas = stageRef.current.toCanvas({
-          pixelRatio: 2, // Higher resolution for better quality
-        });
+  // const handleCopy = () => {
+  //   if (stageRef.current) {
+  //     try {
+  //       // Convert stage to canvas first
+  //       const canvas = stageRef.current.toCanvas({
+  //         pixelRatio: 2, // Higher resolution for better quality
+  //       });
 
-        // Canvas to Blob, then to clipboard
-        canvas.toBlob((blob) => {
-          if (blob) {
-            // Create a ClipboardItem
-            const item = new ClipboardItem({ "image/png": blob });
+  //       // Canvas to Blob, then to clipboard
+  //       canvas.toBlob((blob) => {
+  //         if (blob) {
+  //           // Create a ClipboardItem
+  //           const item = new ClipboardItem({ "image/png": blob });
 
-            // Write to clipboard
-            navigator.clipboard
-              .write([item])
-              .then(() => {
-                alert("이미지가 클립보드에 복사되었습니다.");
-              })
-              .catch((error) => {
-                console.error("클립보드 복사 실패:", error);
-                alert("클립보드 복사에 실패했습니다. 다시 시도해주세요.");
-              });
-          }
-        }, "image/png");
-      } catch (error) {
-        console.error("이미지 복사 중 오류:", error);
-        alert("이미지 복사 중 오류가 발생했습니다. 다시 시도해주세요.");
-      }
-    }
-  };
+  //           // Write to clipboard
+  //           navigator.clipboard
+  //             .write([item])
+  //             .then(() => {
+  //               alert("이미지가 클립보드에 복사되었습니다.");
+  //             })
+  //             .catch((error) => {
+  //               console.error("클립보드 복사 실패:", error);
+  //               alert("클립보드 복사에 실패했습니다. 다시 시도해주세요.");
+  //             });
+  //         }
+  //       }, "image/png");
+  //     } catch (error) {
+  //       console.error("이미지 복사 중 오류:", error);
+  //       alert("이미지 복사 중 오류가 발생했습니다. 다시 시도해주세요.");
+  //     }
+  //   }
+  // };
 
   // 다운로드 로직
   const downloadURI = (uri: string, name: string) => {
@@ -668,7 +667,7 @@ const App = () => {
             <div className="flex flex-row items-center">
               {/* 복사, 다운 */}
               <Copy
-                onClick={() => handleCopy()}
+                onClick={() => handleCopy(stageRef as React.RefObject<Konva.Stage>)}
                 width="1.75rem"
                 height="1.75rem"
                 fill="#A9A9A9"
