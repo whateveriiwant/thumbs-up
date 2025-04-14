@@ -1,7 +1,4 @@
 import Reset from "./assets/reset.svg?react";
-import Copy from "./assets/copy.svg?react";
-import Download from "./assets/download.svg?react";
-import Scale from "./assets/scale.svg?react";
 import Layout from "./assets/layout.svg?react";
 import BackGround from "./assets/bg.svg?react";
 import ResetBG from "./assets/resetBg.svg?react";
@@ -599,14 +596,7 @@ const App = () => {
           </div>
           <div className="flex flex-row items-start justify-between mt-14">
             {/* 비율 + 레이아웃 묶음 */}
-            <div className="flex flex-col items-start">
-              {/* 비율 */}
-              <div className="flex flex-row items-center">
-                <Scale width="2rem" height="2rem" />
-                <p className="ml-2 text-2xl font-semibold">비율</p>
-              </div>
-              <Ratio ratioStatus={ratioStatus} updateRatio={onClickRatio} width={width} height={height} />
-            </div>
+            <Ratio ratioStatus={ratioStatus} updateRatio={onClickRatio} width={width} height={height} />
             <div className="flex flex-col items-start ml-6">
               {/*레이아웃 */}
               <div className="flex flex-row items-center">
