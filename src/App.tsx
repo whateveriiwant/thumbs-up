@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from "react";
 import LayoutDropdown from "./components/layout/LayoutDropdown";
 import BackgroundDropdown from "./components/background/BackgroundDropdown";
 import TextDropdown from "./components/text/TextDropdown";
+import TextTypeSelector from "./components/text/TextTypeSelector";
 import { Stage, Layer, Image, Text, Line, Rect } from "react-konva";
 import useImage from "use-image";
 import Konva from "konva";
@@ -31,8 +32,6 @@ import {
 import Footer from "./components/footer/Footer";
 import { HexColorPicker } from "react-colorful";
 import disableRightClick from "./utils/disableRightClick";
-import { handleCopy } from "./utils/handleCopy";
-import { handleDownload } from "./utils/handleDownload";
 import { bgImageList } from "./components/background/bgImageList";
 import { CnD } from "./utils/CnD/CnD";
 
@@ -299,7 +298,7 @@ const App = () => {
 
   /* 캔버스 로직 */
   const stageRef = useRef<Konva.Stage>(null);
-  const [isDragging, setIsDragging] = useState(false);
+
   const [textPosition, setTextPosition] = useState({
     1: [0, 402.094 / 2 - 70, 0, 402.094 / 2 + 20, 0, 402.094 / 2 + 160], // Velog
     2: [0, 400 / 2 - 60, 0, 400 / 2 + 20, 0, 400 / 2 + 160], // 1:1
@@ -429,7 +428,6 @@ const App = () => {
                   fontFamily="Pretendard Variable"
                   align="center"
                   verticalAlign="middle"
-                  onDragStart={() => setIsDragging(true)}
                   onDragMove={(e) => {
                     // Check if near horizontal center
                     const centerX = width / 2 - e.target.width() / 2;
@@ -438,7 +436,6 @@ const App = () => {
                     }
                   }}
                   onDragEnd={(e) => {
-                    setIsDragging(false);
                     setTextPosition({
                       ...textPosition,
                       [ratioStatus]: [
@@ -463,7 +460,6 @@ const App = () => {
                     ]}
                     stroke="#ffffff"
                     strokeWidth={2}
-                    onDragStart={() => setIsDragging(true)}
                     onDragMove={(e) => {
                       const line = e.target as import("konva/lib/shapes/Line").Line;
                       const points = line.points();
@@ -478,7 +474,6 @@ const App = () => {
                       }
                     }}
                     onDragEnd={(e) => {
-                      setIsDragging(false);
                       const line = e.target as import("konva/lib/shapes/Line").Line;
                       setLinePosition({
                         ...linePosition,
@@ -500,7 +495,6 @@ const App = () => {
                     fontFamily="Pretendard Variable"
                     align="center"
                     verticalAlign="middle"
-                    onDragStart={() => setIsDragging(true)}
                     onDragMove={(e) => {
                       // Check if near horizontal center
                       const centerX = width / 2 - e.target.width() / 2;
@@ -509,7 +503,6 @@ const App = () => {
                       }
                     }}
                     onDragEnd={(e) => {
-                      setIsDragging(false);
                       setTextPosition({
                         ...textPosition,
                         [ratioStatus]: [
@@ -537,7 +530,6 @@ const App = () => {
                     fontFamily="Pretendard Variable"
                     align="center"
                     verticalAlign="middle"
-                    onDragStart={() => setIsDragging(true)}
                     onDragMove={(e) => {
                       // Check if near horizontal center
                       const centerX = width / 2 - e.target.width() / 2;
@@ -546,7 +538,6 @@ const App = () => {
                       }
                     }}
                     onDragEnd={(e) => {
-                      setIsDragging(false);
                       setTextPosition({
                         ...textPosition,
                         [ratioStatus]: [
@@ -766,32 +757,7 @@ const App = () => {
                 <TextIcon width="2rem" height="2rem" />
                 <p className="ml-2 text-2xl font-semibold">텍스트</p>
               </div>
-              <div className="flex flex-row mt-4 w-[12.5rem] justify-between">
-                <div
-                  onClick={() => onClickTitleType("main")}
-                  className={`hover:cursor-pointer w-15 h-9 ${
-                    currentTitle === "main" ? "bg-[#DFE3FF]" : "bg-[#F2F2F2]"
-                  } rounded-lg flex items-center justify-center hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out`}
-                >
-                  <p className="font-light text-lg">제목</p>
-                </div>
-                <div
-                  onClick={() => onClickTitleType("sub")}
-                  className={`hover:cursor-pointer w-15 h-9 ${
-                    currentTitle === "sub" ? "bg-[#DFE3FF]" : "bg-[#F2F2F2]"
-                  } rounded-lg flex items-center justify-center hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out`}
-                >
-                  <p className="font-light text-lg">부제목</p>
-                </div>
-                <div
-                  onClick={() => onClickTitleType("small")}
-                  className={`hover:cursor-pointer w-15 h-9 ${
-                    currentTitle === "small" ? "bg-[#DFE3FF]" : "bg-[#F2F2F2]"
-                  } rounded-lg flex items-center justify-center hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out`}
-                >
-                  <p className="font-light text-lg">소제목</p>
-                </div>
-              </div>
+              <TextTypeSelector currentTitle={currentTitle} onClickTitleType={onClickTitleType} />
               <div className="flex flex-row items-center mt-2">
                 <div
                   onClick={() => onClickTextDropdown()}
