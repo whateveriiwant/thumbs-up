@@ -34,6 +34,7 @@ import { HexColorPicker } from "react-colorful";
 import disableRightClick from "./utils/disableRightClick";
 import { bgImageList } from "./components/background/bgImageList";
 import { CnD } from "./utils/CnD/CnD";
+import { FullBackground } from "./components/background/FullBackground";
 
 // LocalStorage keys
 const STORAGE_KEY_RATIO = "thumbs-up-ratio";
@@ -371,33 +372,13 @@ const App = () => {
 
   return (
     <div className="relative w-full min-h-screen overflow-hidden flex items-center justify-center">
-      {bg === 1 && (
-        <div
-          className="absolute inset-0 bg-cover w-full h-full -z-10 blur-xs scale-150"
-          style={{ backgroundImage: `url(${bgImageList[index]})` }}
-        />
-      )}
-      {bg === 2 && (
-        <div className="absolute inset-0 bg-cover w-full h-full -z-10 scale-150" style={{ backgroundColor: bgColor }} />
-      )}
+      {bg === 1 && <FullBackground style={{ backgroundImage: `url(${bgImageList[index]})` }} />}
+      {bg === 2 && <FullBackground style={{ backgroundColor: bgColor }} />}
       {bg === 3 && (
-        <div
-          className="absolute inset-0 bg-cover w-full h-full -z-10 scale-150"
-          style={{ background: `linear-gradient(to right, ${bgGradientStart}, ${bgGradientEnd})` }}
-        />
+        <FullBackground style={{ background: `linear-gradient(to right, ${bgGradientStart}, ${bgGradientEnd})` }} />
       )}
-      {bg === 4 && bgLink === "" && (
-        <div
-          className="absolute inset-0 bg-cover w-full h-full -z-10 blur-xs scale-150"
-          style={{ backgroundImage: `url(${bgImageList[index]})` }}
-        />
-      )}
-      {bg === 4 && bgLink !== "" && (
-        <div
-          className="absolute inset-0 bg-cover w-full h-full -z-10 blur-xs scale-150"
-          style={{ backgroundImage: `url(${bgLink})` }}
-        />
-      )}
+      {bg === 4 && bgLink === "" && <FullBackground style={{ backgroundImage: `url(${bgImage})` }} />}
+      {bg === 4 && bgLink !== "" && <FullBackground style={{ backgroundImage: `url(${bgLink})` }} />}
       <div className="flex items-center justify-center py-10">
         <div className="bg-white px-14 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col shadow-2xl">
           <div className="flex items-center justify-center">
