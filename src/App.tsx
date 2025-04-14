@@ -36,6 +36,7 @@ import { bgImageList } from "./components/background/bgImageList";
 import { CnD } from "./utils/CnD/CnD";
 import { FullBackground } from "./components/background/FullBackground";
 import { Size } from "./utils/Size";
+import { ratioList } from "./components/ratio/ratioList";
 
 // LocalStorage keys
 const STORAGE_KEY_RATIO = "thumbs-up-ratio";
@@ -53,13 +54,6 @@ const App = () => {
     const savedRatio = localStorage.getItem(STORAGE_KEY_RATIO);
     return (savedRatio ? parseInt(savedRatio) : 1) as RatioKey;
   });
-
-  const ratioList = {
-    1: [768, 402.094], // Velog
-    2: [400, 400], // 1:1
-    3: [533.3333, 400], // 4:3
-    4: [640, 340], // Youtube
-  };
 
   const [width, setWidth] = useState<number>(ratioList[ratioStatus][0]);
   const [height, setHeight] = useState<number>(ratioList[ratioStatus][1]);
