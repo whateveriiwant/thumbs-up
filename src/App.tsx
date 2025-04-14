@@ -35,6 +35,7 @@ import Footer from "./components/footer/Footer";
 import { HexColorPicker } from "react-colorful";
 import disableRightClick from "./utils/disableRightClick";
 import { handleCopy } from "./utils/handleCopy";
+import { handleDownload } from "./utils/handleDownload";
 
 // LocalStorage keys
 const STORAGE_KEY_RATIO = "thumbs-up-ratio";
@@ -44,70 +45,6 @@ const App = () => {
   useEffect(() => {
     disableRightClick();
   }, []);
-
-  // 복사 로직
-  // const handleCopy = () => {
-  //   if (stageRef.current) {
-  //     try {
-  //       // Convert stage to canvas first
-  //       const canvas = stageRef.current.toCanvas({
-  //         pixelRatio: 2, // Higher resolution for better quality
-  //       });
-
-  //       // Canvas to Blob, then to clipboard
-  //       canvas.toBlob((blob) => {
-  //         if (blob) {
-  //           // Create a ClipboardItem
-  //           const item = new ClipboardItem({ "image/png": blob });
-
-  //           // Write to clipboard
-  //           navigator.clipboard
-  //             .write([item])
-  //             .then(() => {
-  //               alert("이미지가 클립보드에 복사되었습니다.");
-  //             })
-  //             .catch((error) => {
-  //               console.error("클립보드 복사 실패:", error);
-  //               alert("클립보드 복사에 실패했습니다. 다시 시도해주세요.");
-  //             });
-  //         }
-  //       }, "image/png");
-  //     } catch (error) {
-  //       console.error("이미지 복사 중 오류:", error);
-  //       alert("이미지 복사 중 오류가 발생했습니다. 다시 시도해주세요.");
-  //     }
-  //   }
-  // };
-
-  // 다운로드 로직
-  const downloadURI = (uri: string, name: string) => {
-    const link = document.createElement("a");
-    link.href = uri;
-    link.download = name;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-  // Properly type the stageRef to access Konva Stage methods
-  const stageRef = useRef<Konva.Stage>(null);
-  const handleDownload = () => {
-    if (stageRef.current) {
-      try {
-        // Convert stage to canvas first
-        const canvas = stageRef.current.toCanvas({
-          pixelRatio: 2, // Higher resolution for better quality
-        });
-
-        // Create data URL from canvas with explicit image/png MIME type
-        const uri = canvas.toDataURL("image/png", 1.0);
-
-        downloadURI(uri, "thumbs-up-image.png");
-      } catch (error) {
-        console.error("Error during image download:", error);
-        alert("이미지 다운로드 중 오류가 발생했습니다. 다시 시도해주세요.");
-      }
-    }
-  };
 
   /* 비율 로직 */
   type RatioKey = 1 | 2 | 3 | 4;
@@ -370,7 +307,7 @@ const App = () => {
   };
 
   /* 캔버스 로직 */
-
+  const stageRef = useRef<Konva.Stage>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [textPosition, setTextPosition] = useState({
     1: [0, 402.094 / 2 - 70, 0, 402.094 / 2 + 20, 0, 402.094 / 2 + 160], // Velog
@@ -674,7 +611,7 @@ const App = () => {
                 className="ml-2 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-black"
               />
               <Download
-                onClick={() => handleDownload()}
+                onClick={() => handleDownload(stageRef as React.RefObject<Konva.Stage>)}
                 width="1.75rem"
                 height="1.75rem"
                 fill="#A9A9A9"
