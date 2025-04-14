@@ -35,6 +35,7 @@ import disableRightClick from "./utils/disableRightClick";
 import { bgImageList } from "./components/background/bgImageList";
 import { CnD } from "./utils/CnD/CnD";
 import { FullBackground } from "./components/background/FullBackground";
+import { Size } from "./utils/Size";
 
 // LocalStorage keys
 const STORAGE_KEY_RATIO = "thumbs-up-ratio";
@@ -402,7 +403,6 @@ const App = () => {
                   y={textPosition[ratioStatus][1]}
                   width={width}
                   text="제목을 입력하세요"
-                  // fontSize={textSizeList[ratioStatus][0]}
                   fontSize={mainTitle.size}
                   fill="#ffffff"
                   fontStyle="700"
@@ -538,32 +538,7 @@ const App = () => {
             </Stage>
           </div>
           <div className="flex flex-row items-center justify-between mt-3">
-            <div className="flex flex-row items-center">
-              {/* 사이즈 입력 */}
-              <p className="text-xl text-[#A9A9A9] font-light mr-2">사이즈</p>
-              <input
-                type="text"
-                alt="width"
-                value={width}
-                className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-0.5 py-0.5 bg-white border border-[#D9D9D9] w-20 h-7 rounded-md text-center text-black font-light text-md"
-              />
-              <p className="text-md text-[#D9D9D9] font-light mx-1">X</p>
-              <input
-                type="text"
-                alt="height"
-                value={height}
-                className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-0.5 py-0.5 bg-white border border-[#D9D9D9] w-20 h-7 rounded-md text-center text-black font-light text-md"
-              />
-              <Reset
-                width="1.75rem"
-                height="1.75rem"
-                fill="#D9D9D9"
-                className="ml-2 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-black"
-                onClick={() => {
-                  onClickReset();
-                }}
-              />
-            </div>
+            <Size width={width} height={height} onClickReset={onClickReset} />
             <CnD ref={stageRef} /> {/* 복사, 다운로드 */}
           </div>
           <div className="flex flex-row items-start justify-between mt-14">
