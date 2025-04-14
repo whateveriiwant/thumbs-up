@@ -338,13 +338,6 @@ const App = () => {
     color: "#ffffff",
   });
 
-  const mainTitleSizeHandler = (size: number) => {
-    setMainTitle({
-      ...mainTitle,
-      size: size,
-    });
-  };
-
   const [subTitle, setSubTitle] = useState({
     font: "Pretendard",
     size: textSizeList[ratioStatus][1],
@@ -362,6 +355,13 @@ const App = () => {
     align: "left",
     color: "#ffffff",
   });
+
+  useEffect(() => {
+    // Update font size based on ratioStatus
+    setMainTitle((prev) => ({ ...prev, size: textSizeList[ratioStatus][0] }));
+    setSubTitle((prev) => ({ ...prev, size: textSizeList[ratioStatus][1] }));
+    setSmallTitle((prev) => ({ ...prev, size: textSizeList[ratioStatus][2] }));
+  }, [mainTitle, subTitle, smallTitle, ratioStatus, layout]);
 
   const onClickTitleType = (type: string) => {
     if (type === "main") {
@@ -914,7 +914,7 @@ const App = () => {
                     }
                   }}
                   onChange={(e) => {
-                    if (currentTitle === "main") mainTitleSizeHandler(parseInt(e.target.value));
+                    if (currentTitle === "main") setMainTitle({ ...mainTitle, size: parseInt(e.target.value) });
                     else if (currentTitle === "sub") setSubTitle({ ...subTitle, size: parseInt(e.target.value) });
                     else if (currentTitle === "small") setSmallTitle({ ...smallTitle, size: parseInt(e.target.value) });
                   }}

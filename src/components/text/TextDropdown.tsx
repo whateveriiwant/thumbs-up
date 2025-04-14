@@ -1,7 +1,7 @@
 const TextDropdown = (props: any) => {
   return (
     <div
-      className={`absolute mt-[6.3rem] w-[12.5rem] h-[12rem] overflow-hidden z-10 shadow-xl bg-white rounded-xl ${
+      className={`absolute mt-[9.1rem] w-[12.5rem] h-[12rem] overflow-hidden z-10 shadow-xl bg-white rounded-xl ${
         props.status ? "animate-dropdown" : "animate-dropdown-out"
       }`}
     >
