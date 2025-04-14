@@ -319,7 +319,6 @@ const App = () => {
     setTextView(!textView);
   };
 
-  /* 캔버스 로직 */
   const textSizeList = {
     // 폰트 사이즈 제목, 부제목, 소제목 순서
     1: [55, 35, 23], // Velog
@@ -327,6 +326,52 @@ const App = () => {
     3: [55, 35, 22], // 4:3
     4: [55, 35, 23], // Youtube 16:9
   };
+
+  const [currentTitle, setCurrentTitle] = useState("main");
+
+  const [mainTitle, setMainTitle] = useState({
+    font: "Pretendard",
+    size: textSizeList[ratioStatus][0],
+    bold: false,
+    underline: false,
+    align: "left",
+    color: "#ffffff",
+  });
+
+  const mainTitleSizeHandler = (size: number) => {
+    setMainTitle({
+      ...mainTitle,
+      size: size,
+    });
+  };
+
+  const [subTitle, setSubTitle] = useState({
+    font: "Pretendard",
+    size: textSizeList[ratioStatus][1],
+    bold: false,
+    underline: false,
+    align: "left",
+    color: "#ffffff",
+  });
+
+  const [smallTitle, setSmallTitle] = useState({
+    font: "Pretendard",
+    size: textSizeList[ratioStatus][2],
+    bold: false,
+    underline: false,
+    align: "left",
+    color: "#ffffff",
+  });
+
+  const onClickTitleType = (type: string) => {
+    if (type === "main") {
+      setCurrentTitle("main");
+    } else if (type === "sub") setCurrentTitle("sub");
+    else setCurrentTitle("small");
+  };
+
+  /* 캔버스 로직 */
+
   const [isDragging, setIsDragging] = useState(false);
   const [textPosition, setTextPosition] = useState({
     1: [0, 402.094 / 2 - 70, 0, 402.094 / 2 + 20, 0, 402.094 / 2 + 160], // Velog
@@ -366,6 +411,33 @@ const App = () => {
     // Set positions directly using the ratioStatus as a key
     setTextPosition(positionMappings.text[layout]);
     setLinePosition(positionMappings.line[layout]);
+
+    setMainTitle({
+      font: "Pretendard",
+      size: textSizeList[ratioStatus][0],
+      bold: false,
+      underline: false,
+      align: "left",
+      color: "#ffffff",
+    });
+
+    setSubTitle({
+      font: "Pretendard",
+      size: textSizeList[ratioStatus][1],
+      bold: false,
+      underline: false,
+      align: "left",
+      color: "#ffffff",
+    });
+
+    setSmallTitle({
+      font: "Pretendard",
+      size: textSizeList[ratioStatus][2],
+      bold: false,
+      underline: false,
+      align: "left",
+      color: "#ffffff",
+    });
 
     // Increment reset key to force re-render
     setResetKey((prev) => prev + 1);
@@ -423,7 +495,8 @@ const App = () => {
                   y={textPosition[ratioStatus][1]}
                   width={width}
                   text="제목을 입력하세요"
-                  fontSize={textSizeList[ratioStatus][0]}
+                  // fontSize={textSizeList[ratioStatus][0]}
+                  fontSize={mainTitle.size}
                   fill="#ffffff"
                   fontStyle="700"
                   fontFamily="Pretendard Variable"
@@ -494,7 +567,7 @@ const App = () => {
                     y={textPosition[ratioStatus][3]}
                     width={width}
                     text="부제목을 입력하세요"
-                    fontSize={textSizeList[ratioStatus][1]}
+                    fontSize={subTitle.size}
                     fill="#ffffff"
                     fontStyle="500"
                     fontFamily="Pretendard Variable"
@@ -531,7 +604,7 @@ const App = () => {
                     y={textPosition[ratioStatus][5]}
                     width={width}
                     text="소제목을 입력하세요"
-                    fontSize={textSizeList[ratioStatus][2]}
+                    fontSize={smallTitle.size}
                     fill="#ffffff"
                     fontStyle="300"
                     fontFamily="Pretendard Variable"
@@ -789,7 +862,33 @@ const App = () => {
                 <TextIcon width="2rem" height="2rem" />
                 <p className="ml-2 text-2xl font-semibold">텍스트</p>
               </div>
-              <div className="flex flex-row items-center mt-4">
+              <div className="flex flex-row mt-4 w-[12.5rem] justify-between">
+                <div
+                  onClick={() => onClickTitleType("main")}
+                  className={`hover:cursor-pointer w-15 h-9 ${
+                    currentTitle === "main" ? "bg-[#DFE3FF]" : "bg-[#F2F2F2]"
+                  } rounded-lg flex items-center justify-center hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out`}
+                >
+                  <p className="font-light text-lg">제목</p>
+                </div>
+                <div
+                  onClick={() => onClickTitleType("sub")}
+                  className={`hover:cursor-pointer w-15 h-9 ${
+                    currentTitle === "sub" ? "bg-[#DFE3FF]" : "bg-[#F2F2F2]"
+                  } rounded-lg flex items-center justify-center hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out`}
+                >
+                  <p className="font-light text-lg">부제목</p>
+                </div>
+                <div
+                  onClick={() => onClickTitleType("small")}
+                  className={`hover:cursor-pointer w-15 h-9 ${
+                    currentTitle === "small" ? "bg-[#DFE3FF]" : "bg-[#F2F2F2]"
+                  } rounded-lg flex items-center justify-center hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out`}
+                >
+                  <p className="font-light text-lg">소제목</p>
+                </div>
+              </div>
+              <div className="flex flex-row items-center mt-2">
                 <div
                   onClick={() => onClickTextDropdown()}
                   className="flex flex-row items-center justify-between px-3 bg-[#F2F2F2] rounded-xl w-[12.5rem] h-12 hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out"
@@ -803,12 +902,21 @@ const App = () => {
                 </div>
                 <input
                   type="number"
+                  name="textSize"
                   max={99}
+                  value={
+                    currentTitle === "main" ? mainTitle.size : currentTitle === "sub" ? subTitle.size : smallTitle.size
+                  }
                   onInput={(e) => {
                     const input = e.target as HTMLInputElement;
                     if (input.value.length > 2) {
                       input.value = input.value.slice(0, 2);
                     }
+                  }}
+                  onChange={(e) => {
+                    if (currentTitle === "main") mainTitleSizeHandler(parseInt(e.target.value));
+                    else if (currentTitle === "sub") setSubTitle({ ...subTitle, size: parseInt(e.target.value) });
+                    else if (currentTitle === "small") setSmallTitle({ ...smallTitle, size: parseInt(e.target.value) });
                   }}
                   className="w-[4rem] h-12 ml-2 focus:outline-none px-2 text-xl font-light text-center bg-white border border-[#D9D9D9] rounded-lg"
                 />
