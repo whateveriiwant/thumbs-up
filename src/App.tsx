@@ -1,4 +1,3 @@
-import Reset from "./assets/reset.svg?react";
 import Layout from "./assets/layout.svg?react";
 import BackGround from "./assets/bg.svg?react";
 import ResetBG from "./assets/resetBg.svg?react";
@@ -37,6 +36,7 @@ import { CnD } from "./utils/CnD/CnD";
 import { FullBackground } from "./components/background/FullBackground";
 import { Size } from "./utils/Size";
 import { ratioList } from "./components/ratio/ratioList";
+import { layoutList } from "./components/layout/layoutList";
 
 // LocalStorage keys
 const STORAGE_KEY_RATIO = "thumbs-up-ratio";
@@ -103,13 +103,6 @@ const App = () => {
     setTextPosition(positionMappings.text[layout]);
     setLinePosition(positionMappings.line[layout]);
   }, [layout, ratioStatus]); // 레이아웃, 비율 바뀔 때 마다 위치 재설정
-
-  const layoutList = {
-    1: "제목 + 부제목 + 소제목",
-    2: "제목",
-    3: "제목 + 부제목",
-    4: "제목 + 소제목",
-  };
 
   const onClickLayoutDropdown = () => {
     setLayoutView(!layoutView);
