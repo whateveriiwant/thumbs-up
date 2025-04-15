@@ -171,8 +171,16 @@ const App = () => {
   };
 
   const onClickRandomBGGradient = () => {
-    const randomColorStart = "#" + Math.floor(Math.random() * 16777215).toString(16);
-    const randomColorEnd = "#" + Math.floor(Math.random() * 16777215).toString(16);
+    const randomColorStart =
+      "#" +
+      Math.floor(Math.random() * 16777215)
+        .toString(16)
+        .padStart(6, "0");
+    const randomColorEnd =
+      "#" +
+      Math.floor(Math.random() * 16777215)
+        .toString(16)
+        .padStart(6, "0");
     setBgGradientStart(randomColorStart);
     setBgGradientEnd(randomColorEnd);
   };
@@ -277,7 +285,7 @@ const App = () => {
     setMainTitle((prev) => ({ ...prev, size: textSizeList[ratioStatus][0] }));
     setSubTitle((prev) => ({ ...prev, size: textSizeList[ratioStatus][1] }));
     setSmallTitle((prev) => ({ ...prev, size: textSizeList[ratioStatus][2] }));
-  }, [mainTitle, subTitle, smallTitle, ratioStatus, layout]);
+  }, [ratioStatus, layout]); // Removed mainTitle, subTitle, smallTitle from dependencies
 
   const onClickTitleType = (type: string) => {
     if (type === "main") {
