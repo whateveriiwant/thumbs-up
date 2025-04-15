@@ -677,7 +677,7 @@ const App = () => {
                 <TextIcon width="2rem" height="2rem" />
                 <p className="ml-2 text-2xl font-semibold">텍스트</p>
               </div>
-              <TextTypeSelector currentTitle={currentTitle} onClickTitleType={onClickTitleType} />
+              <TextTypeSelector layout={layout} currentTitle={currentTitle} onClickTitleType={onClickTitleType} />
               <div className="flex flex-row items-center mt-2">
                 <div
                   onClick={() => onClickTextDropdown()}
