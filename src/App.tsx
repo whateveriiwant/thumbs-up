@@ -233,6 +233,12 @@ const App = () => {
     3: "서울한강체",
     4: "Noto Sans KR",
   };
+  const fontList = {
+    1: "Pretendard Variable",
+    2: "NanumGothic",
+    3: "SeoulHangangM",
+    4: "Noto Sans KR",
+  };
 
   const onClickTextDropdown = () => {
     setTextView(!textView);
@@ -240,6 +246,16 @@ const App = () => {
 
   const onClickTextDropdownMenu = (i: TextKey) => {
     setText(i);
+
+    // Update the font of the currently selected title
+    if (currentTitle === "main") {
+      setMainTitle((prev) => ({ ...prev, key: i, font: fontList[i] }));
+    } else if (currentTitle === "sub") {
+      setSubTitle((prev) => ({ ...prev, key: i, font: fontList[i] }));
+    } else if (currentTitle === "small") {
+      setSmallTitle((prev) => ({ ...prev, key: i, font: fontList[i] }));
+    }
+
     setTextView(!textView);
   };
 
@@ -254,7 +270,8 @@ const App = () => {
   const [currentTitle, setCurrentTitle] = useState("main");
 
   const [mainTitle, setMainTitle] = useState({
-    font: "Pretendard",
+    font: "Pretendard Variable",
+    key: 1 as TextKey,
     size: textSizeList[ratioStatus][0],
     bold: false,
     underline: false,
@@ -263,7 +280,8 @@ const App = () => {
   });
 
   const [subTitle, setSubTitle] = useState({
-    font: "Pretendard",
+    font: "Pretendard Variable",
+    key: 1 as TextKey,
     size: textSizeList[ratioStatus][1],
     bold: false,
     underline: false,
@@ -272,7 +290,8 @@ const App = () => {
   });
 
   const [smallTitle, setSmallTitle] = useState({
-    font: "Pretendard",
+    font: "Pretendard Variable",
+    key: 1 as TextKey,
     size: textSizeList[ratioStatus][2],
     bold: false,
     underline: false,
@@ -282,10 +301,10 @@ const App = () => {
 
   useEffect(() => {
     // Update font size based on ratioStatus
-    setMainTitle((prev) => ({ ...prev, size: textSizeList[ratioStatus][0] }));
-    setSubTitle((prev) => ({ ...prev, size: textSizeList[ratioStatus][1] }));
-    setSmallTitle((prev) => ({ ...prev, size: textSizeList[ratioStatus][2] }));
-  }, [ratioStatus, layout]); // Removed mainTitle, subTitle, smallTitle from dependencies
+    setMainTitle((prev) => ({ ...prev, font: fontList[layout], size: textSizeList[ratioStatus][0] }));
+    setSubTitle((prev) => ({ ...prev, font: fontList[layout], size: textSizeList[ratioStatus][1] }));
+    setSmallTitle((prev) => ({ ...prev, font: fontList[layout], size: textSizeList[ratioStatus][2] }));
+  }, [ratioStatus, layout]);
 
   const onClickTitleType = (type: string) => {
     if (type === "main") {
@@ -338,6 +357,7 @@ const App = () => {
 
     setMainTitle({
       font: "Pretendard",
+      key: 1,
       size: textSizeList[ratioStatus][0],
       bold: false,
       underline: false,
@@ -347,6 +367,7 @@ const App = () => {
 
     setSubTitle({
       font: "Pretendard",
+      key: 1,
       size: textSizeList[ratioStatus][1],
       bold: false,
       underline: false,
@@ -356,6 +377,7 @@ const App = () => {
 
     setSmallTitle({
       font: "Pretendard",
+      key: 1,
       size: textSizeList[ratioStatus][2],
       bold: false,
       underline: false,
@@ -402,7 +424,7 @@ const App = () => {
                   fontSize={mainTitle.size}
                   fill="#ffffff"
                   fontStyle="700"
-                  fontFamily="Pretendard Variable"
+                  fontFamily={mainTitle.font}
                   align="center"
                   verticalAlign="middle"
                   onDragMove={(e) => {
@@ -469,7 +491,7 @@ const App = () => {
                     fontSize={subTitle.size}
                     fill="#ffffff"
                     fontStyle="500"
-                    fontFamily="Pretendard Variable"
+                    fontFamily={subTitle.font}
                     align="center"
                     verticalAlign="middle"
                     onDragMove={(e) => {
@@ -504,7 +526,7 @@ const App = () => {
                     fontSize={smallTitle.size}
                     fill="#ffffff"
                     fontStyle="300"
-                    fontFamily="Pretendard Variable"
+                    fontFamily={smallTitle.font}
                     align="center"
                     verticalAlign="middle"
                     onDragMove={(e) => {
@@ -683,7 +705,9 @@ const App = () => {
                   onClick={() => onClickTextDropdown()}
                   className="flex flex-row items-center justify-between px-3 bg-[#F2F2F2] rounded-xl w-[12.5rem] h-12 hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out"
                 >
-                  <p className="text-xl font-light">{textList[text]}</p>
+                  {currentTitle === "main" && <p className="text-xl font-light">{textList[mainTitle.key]}</p>}
+                  {currentTitle === "sub" && <p className="text-xl font-light">{textList[subTitle.key]}</p>}
+                  {currentTitle === "small" && <p className="text-xl font-light">{textList[smallTitle.key]}</p>}
                   {textView ? (
                     <Darrow width="1.8rem" height="1.8rem" className="rotate-180" />
                   ) : (
