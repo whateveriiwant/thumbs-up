@@ -273,7 +273,7 @@ const App = () => {
     font: "Pretendard Variable",
     key: 1 as TextKey,
     size: textSizeList[ratioStatus][0],
-    bold: false,
+    bold: true,
     underline: false,
     align: "left",
     color: "#ffffff",
@@ -359,7 +359,7 @@ const App = () => {
       font: "Pretendard",
       key: 1,
       size: textSizeList[ratioStatus][0],
-      bold: false,
+      bold: true,
       underline: false,
       align: "left",
       color: "#ffffff",
@@ -423,7 +423,7 @@ const App = () => {
                   text="제목을 입력하세요"
                   fontSize={mainTitle.size}
                   fill="#ffffff"
-                  fontStyle="700"
+                  fontStyle={mainTitle.bold ? "700" : "400"}
                   fontFamily={mainTitle.font}
                   align="center"
                   verticalAlign="middle"
@@ -490,7 +490,7 @@ const App = () => {
                     text="부제목을 입력하세요"
                     fontSize={subTitle.size}
                     fill="#ffffff"
-                    fontStyle="500"
+                    fontStyle={subTitle.bold ? "700" : "500"}
                     fontFamily={subTitle.font}
                     align="center"
                     verticalAlign="middle"
@@ -525,7 +525,7 @@ const App = () => {
                     text="소제목을 입력하세요"
                     fontSize={smallTitle.size}
                     fill="#ffffff"
-                    fontStyle="300"
+                    fontStyle={smallTitle.bold ? "700" : "300"}
                     fontFamily={smallTitle.font}
                     align="center"
                     verticalAlign="middle"
@@ -737,16 +737,49 @@ const App = () => {
               </div>
               {textView && <TextDropdown status={textView} setText={onClickTextDropdownMenu} currentText={text} />}
               <div className="flex flex-row mt-3 justify-between w-[12.5rem]">
-                <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg">
-                  <Bold width="1.8rem" height="1.8rem" />
-                </div>
-                <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg">
+                {currentTitle === "main" && (
+                  <div
+                    onClick={() => {
+                      setMainTitle((prev) => ({ ...prev, bold: !prev.bold }));
+                    }}
+                    className={`${
+                      mainTitle.bold ? "bg-[#DFE3FF]" : "bg-[#F2F2F2]"
+                    } flex items-center justify-center w-11 h-11 rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out`}
+                  >
+                    <Bold width="1.8rem" height="1.8rem" />
+                  </div>
+                )}
+                {currentTitle === "sub" && (
+                  <div
+                    onClick={() => {
+                      setSubTitle((prev) => ({ ...prev, bold: !prev.bold }));
+                    }}
+                    className={`${
+                      subTitle.bold ? "bg-[#DFE3FF]" : "bg-[#F2F2F2]"
+                    } flex items-center justify-center w-11 h-11 rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out`}
+                  >
+                    <Bold width="1.8rem" height="1.8rem" />
+                  </div>
+                )}
+                {currentTitle === "small" && (
+                  <div
+                    onClick={() => {
+                      setSmallTitle((prev) => ({ ...prev, bold: !prev.bold }));
+                    }}
+                    className={`${
+                      smallTitle.bold ? "bg-[#DFE3FF]" : "bg-[#F2F2F2]"
+                    } flex items-center justify-center w-11 h-11 rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out`}
+                  >
+                    <Bold width="1.8rem" height="1.8rem" />
+                  </div>
+                )}
+                <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out">
                   <Underline width="1.8rem" height="1.8rem" />
                 </div>
-                <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg">
+                <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out">
                   <AlignLeft width="1.8rem" height="1.8rem" />
                 </div>
-                <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg">
+                <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out">
                   <Palette width="1.8rem" height="1.8rem" />
                 </div>
               </div>
