@@ -267,7 +267,8 @@ const App = () => {
     4: [55, 35, 23], // Youtube 16:9
   };
 
-  const [currentTitle, setCurrentTitle] = useState("main");
+  type TitleType = "main" | "sub" | "small";
+  const [currentTitle, setCurrentTitle] = useState<TitleType>("main");
 
   const [mainTitle, setMainTitle] = useState({
     font: "Pretendard Variable",
@@ -737,42 +738,33 @@ const App = () => {
               </div>
               {textView && <TextDropdown status={textView} setText={onClickTextDropdownMenu} currentText={text} />}
               <div className="flex flex-row mt-3 justify-between w-[12.5rem]">
-                {currentTitle === "main" && (
-                  <div
-                    onClick={() => {
-                      setMainTitle((prev) => ({ ...prev, bold: !prev.bold }));
-                    }}
-                    className={`${
-                      mainTitle.bold ? "bg-[#DFE3FF]" : "bg-[#F2F2F2]"
-                    } flex items-center justify-center w-11 h-11 rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out`}
-                  >
-                    <Bold width="1.8rem" height="1.8rem" />
-                  </div>
-                )}
-                {currentTitle === "sub" && (
-                  <div
-                    onClick={() => {
-                      setSubTitle((prev) => ({ ...prev, bold: !prev.bold }));
-                    }}
-                    className={`${
-                      subTitle.bold ? "bg-[#DFE3FF]" : "bg-[#F2F2F2]"
-                    } flex items-center justify-center w-11 h-11 rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out`}
-                  >
-                    <Bold width="1.8rem" height="1.8rem" />
-                  </div>
-                )}
-                {currentTitle === "small" && (
-                  <div
-                    onClick={() => {
-                      setSmallTitle((prev) => ({ ...prev, bold: !prev.bold }));
-                    }}
-                    className={`${
-                      smallTitle.bold ? "bg-[#DFE3FF]" : "bg-[#F2F2F2]"
-                    } flex items-center justify-center w-11 h-11 rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out`}
-                  >
-                    <Bold width="1.8rem" height="1.8rem" />
-                  </div>
-                )}
+                <div
+                  onClick={() => {
+                    const setStateMap = {
+                      main: setMainTitle,
+                      sub: setSubTitle,
+                      small: setSmallTitle,
+                    };
+
+                    const currentState =
+                      currentTitle === "main" ? mainTitle : currentTitle === "sub" ? subTitle : smallTitle;
+
+                    setStateMap[currentTitle]((prev) => ({ ...prev, bold: !prev.bold }));
+                  }}
+                  className={`${
+                    (
+                      currentTitle === "main"
+                        ? mainTitle.bold
+                        : currentTitle === "sub"
+                        ? subTitle.bold
+                        : smallTitle.bold
+                    )
+                      ? "bg-[#DFE3FF]"
+                      : "bg-[#F2F2F2]"
+                  } flex items-center justify-center w-11 h-11 rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out`}
+                >
+                  <Bold width="1.8rem" height="1.8rem" />
+                </div>
                 <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out">
                   <Underline width="1.8rem" height="1.8rem" />
                 </div>
