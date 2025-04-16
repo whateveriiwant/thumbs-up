@@ -424,6 +424,7 @@ const App = () => {
                   text="제목을 입력하세요"
                   fontSize={mainTitle.size}
                   fill="#ffffff"
+                  textDecoration={mainTitle.underline ? "underline" : "none"}
                   fontStyle={mainTitle.bold ? "700" : "400"}
                   fontFamily={mainTitle.font}
                   align="center"
@@ -491,6 +492,7 @@ const App = () => {
                     text="부제목을 입력하세요"
                     fontSize={subTitle.size}
                     fill="#ffffff"
+                    textDecoration={subTitle.underline ? "underline" : "none"}
                     fontStyle={subTitle.bold ? "700" : "500"}
                     fontFamily={subTitle.font}
                     align="center"
@@ -526,6 +528,7 @@ const App = () => {
                     text="소제목을 입력하세요"
                     fontSize={smallTitle.size}
                     fill="#ffffff"
+                    textDecoration={smallTitle.underline ? "underline" : "none"}
                     fontStyle={smallTitle.bold ? "700" : "300"}
                     fontFamily={smallTitle.font}
                     align="center"
@@ -746,9 +749,6 @@ const App = () => {
                       small: setSmallTitle,
                     };
 
-                    const currentState =
-                      currentTitle === "main" ? mainTitle : currentTitle === "sub" ? subTitle : smallTitle;
-
                     setStateMap[currentTitle]((prev) => ({ ...prev, bold: !prev.bold }));
                   }}
                   className={`${
@@ -765,7 +765,27 @@ const App = () => {
                 >
                   <Bold width="1.8rem" height="1.8rem" />
                 </div>
-                <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out">
+                <div
+                  onClick={() => {
+                    const setStateMap = {
+                      main: setMainTitle,
+                      sub: setSubTitle,
+                      small: setSmallTitle,
+                    };
+                    setStateMap[currentTitle]((prev) => ({ ...prev, underline: !prev.underline }));
+                  }}
+                  className={`${
+                    (
+                      currentTitle === "main"
+                        ? mainTitle.underline
+                        : currentTitle === "sub"
+                        ? subTitle.underline
+                        : smallTitle.underline
+                    )
+                      ? "bg-[#DFE3FF]"
+                      : "bg-[#F2F2F2]"
+                  } flex items-center justify-center w-11 h-11 rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out`}
+                >
                   <Underline width="1.8rem" height="1.8rem" />
                 </div>
                 <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out">
