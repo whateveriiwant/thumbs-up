@@ -4,7 +4,6 @@ import ResetBG from "./assets/resetBg.svg?react";
 import TextIcon from "./assets/text.svg?react";
 import Bold from "./assets/bold.svg?react";
 import Underline from "./assets/underline.svg?react";
-import AlignLeft from "./assets/alignLeft.svg?react";
 import Palette from "./assets/palette.svg?react";
 import Darrow from "./assets/dArrow.svg?react";
 import Ratio from "./components/ratio/Ratio";
@@ -259,6 +258,19 @@ const App = () => {
     setTextView(!textView);
   };
 
+  const [textColorShow, setTextColorShow] = useState(false);
+  useEffect(() => {
+    const clickOutside = (e: MouseEvent) => {
+      if (textColorShow && !inSection.current?.contains(e.target as Node)) {
+        setTextColorShow(false);
+      }
+    };
+    document.addEventListener("mousedown", clickOutside);
+    return () => {
+      document.removeEventListener("mousedown", clickOutside);
+    };
+  }, [textColorShow]);
+
   const textSizeList = {
     // 폰트 사이즈 제목, 부제목, 소제목 순서
     1: [55, 35, 23], // Velog
@@ -423,7 +435,7 @@ const App = () => {
                   width={width}
                   text="제목을 입력하세요"
                   fontSize={mainTitle.size}
-                  fill="#ffffff"
+                  fill={mainTitle.color}
                   textDecoration={mainTitle.underline ? "underline" : "none"}
                   fontStyle={mainTitle.bold ? "700" : "400"}
                   fontFamily={mainTitle.font}
@@ -491,7 +503,7 @@ const App = () => {
                     width={width}
                     text="부제목을 입력하세요"
                     fontSize={subTitle.size}
-                    fill="#ffffff"
+                    fill={subTitle.color}
                     textDecoration={subTitle.underline ? "underline" : "none"}
                     fontStyle={subTitle.bold ? "700" : "500"}
                     fontFamily={subTitle.font}
@@ -527,7 +539,7 @@ const App = () => {
                     width={width}
                     text="소제목을 입력하세요"
                     fontSize={smallTitle.size}
-                    fill="#ffffff"
+                    fill={smallTitle.color}
                     textDecoration={smallTitle.underline ? "underline" : "none"}
                     fontStyle={smallTitle.bold ? "700" : "300"}
                     fontFamily={smallTitle.font}
@@ -740,7 +752,7 @@ const App = () => {
                 />
               </div>
               {textView && <TextDropdown status={textView} setText={onClickTextDropdownMenu} currentText={text} />}
-              <div className="flex flex-row mt-3 justify-between w-[12.5rem]">
+              <div className="flex flex-row mt-2 gap-2">
                 <div
                   onClick={() => {
                     const setStateMap = {
@@ -748,7 +760,6 @@ const App = () => {
                       sub: setSubTitle,
                       small: setSmallTitle,
                     };
-
                     setStateMap[currentTitle]((prev) => ({ ...prev, bold: !prev.bold }));
                   }}
                   className={`${
@@ -788,13 +799,38 @@ const App = () => {
                 >
                   <Underline width="1.8rem" height="1.8rem" />
                 </div>
-                <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out">
-                  <AlignLeft width="1.8rem" height="1.8rem" />
-                </div>
-                <div className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out">
+                <div
+                  onClick={() => setTextColorShow(!textColorShow)}
+                  className="flex items-center justify-center w-11 h-11 bg-[#F2F2F2] rounded-lg hover:cursor-pointer hover:bg-[#d9d9d9] transition-colors duration-200 ease-in-out"
+                >
                   <Palette width="1.8rem" height="1.8rem" />
                 </div>
               </div>
+              {textColorShow && (
+                <div
+                  ref={inSection}
+                  className="z-10 absolute mt-[12.5rem] overflow-hidden animate-dropdown transition-opacity duration-300 ease-in-out"
+                >
+                  <HexColorPicker
+                    color={
+                      currentTitle === "main"
+                        ? mainTitle.color
+                        : currentTitle === "sub"
+                        ? subTitle.color
+                        : smallTitle.color
+                    }
+                    onChange={(color) => {
+                      if (currentTitle === "main") {
+                        setMainTitle((prev) => ({ ...prev, color }));
+                      } else if (currentTitle === "sub") {
+                        setSubTitle((prev) => ({ ...prev, color }));
+                      } else {
+                        setSmallTitle((prev) => ({ ...prev, color }));
+                      }
+                    }}
+                  />
+                </div>
+              )}
             </div>
           </div>
           <Footer />
