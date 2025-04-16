@@ -301,11 +301,11 @@ const App = () => {
   });
 
   useEffect(() => {
-    // Update font size based on ratioStatus
-    setMainTitle((prev) => ({ ...prev, font: fontList[layout], size: textSizeList[ratioStatus][0] }));
-    setSubTitle((prev) => ({ ...prev, font: fontList[layout], size: textSizeList[ratioStatus][1] }));
-    setSmallTitle((prev) => ({ ...prev, font: fontList[layout], size: textSizeList[ratioStatus][2] }));
-  }, [ratioStatus, layout]);
+    // Update font size based on ratioStatus without changing the font
+    setMainTitle((prev) => ({ ...prev, size: textSizeList[ratioStatus][0] }));
+    setSubTitle((prev) => ({ ...prev, size: textSizeList[ratioStatus][1] }));
+    setSmallTitle((prev) => ({ ...prev, size: textSizeList[ratioStatus][2] }));
+  }, [ratioStatus]);
 
   const onClickTitleType = (type: string) => {
     if (type === "main") {
