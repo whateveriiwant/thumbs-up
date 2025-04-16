@@ -32,7 +32,7 @@ import { HexColorPicker } from "react-colorful";
 import disableRightClick from "./utils/disableRightClick";
 import { bgImageList } from "./components/background/bgImageList";
 import { CnD } from "./utils/CnD/CnD";
-import { FullBackground } from "./components/background/FullBackground";
+import { BackgroundRenderer } from "./components/background/BackgroundRenderer";
 import { Size } from "./utils/Size";
 import { ratioList } from "./components/ratio/ratioList";
 import { layoutList } from "./components/layout/layoutList";
@@ -404,13 +404,16 @@ const App = () => {
 
   return (
     <div className="relative w-full min-h-screen overflow-hidden flex items-center justify-center">
-      {bg === 1 && <FullBackground style={{ backgroundImage: `url(${bgImageList[index]})` }} />}
-      {bg === 2 && <FullBackground style={{ backgroundColor: bgColor }} />}
-      {bg === 3 && (
-        <FullBackground style={{ background: `linear-gradient(to right, ${bgGradientStart}, ${bgGradientEnd})` }} />
-      )}
-      {bg === 4 && bgLink === "" && <FullBackground style={{ backgroundImage: `url(${bgImage})` }} />}
-      {bg === 4 && bgLink !== "" && <FullBackground style={{ backgroundImage: `url(${bgLink})` }} />}
+      <BackgroundRenderer
+        bg={bg}
+        bgImage={bgImage}
+        bgColor={bgColor}
+        bgGradientStart={bgGradientStart}
+        bgGradientEnd={bgGradientEnd}
+        bgLink={bgLink}
+        userBgImage={userBgImage}
+        index={index}
+      />
       <div className="flex items-center justify-center py-10">
         <div className="bg-white px-14 py-11 w-[55rem] z-10 flex justify-start rounded-[3.5rem] flex-col shadow-2xl">
           <div className="flex items-center justify-center">
