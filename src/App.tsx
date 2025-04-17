@@ -284,6 +284,7 @@ const App = () => {
 
   const [mainTitle, setMainTitle] = useState({
     font: "Pretendard Variable",
+    text: "제목을 입력하세요",
     key: 1 as TextKey,
     size: textSizeList[ratioStatus][0],
     bold: true,
@@ -295,6 +296,7 @@ const App = () => {
   const [subTitle, setSubTitle] = useState({
     font: "Pretendard Variable",
     key: 1 as TextKey,
+    text: "부제목을 입력하세요",
     size: textSizeList[ratioStatus][1],
     bold: false,
     underline: false,
@@ -305,6 +307,7 @@ const App = () => {
   const [smallTitle, setSmallTitle] = useState({
     font: "Pretendard Variable",
     key: 1 as TextKey,
+    text: "소제목을 입력하세요",
     size: textSizeList[ratioStatus][2],
     bold: false,
     underline: false,
@@ -370,6 +373,7 @@ const App = () => {
 
     setMainTitle({
       font: "Pretendard",
+      text: "제목을 입력하세요",
       key: 1,
       size: textSizeList[ratioStatus][0],
       bold: true,
@@ -380,6 +384,7 @@ const App = () => {
 
     setSubTitle({
       font: "Pretendard",
+      text: "부제목을 입력하세요",
       key: 1,
       size: textSizeList[ratioStatus][1],
       bold: false,
@@ -390,6 +395,7 @@ const App = () => {
 
     setSmallTitle({
       font: "Pretendard",
+      text: "소제목을 입력하세요",
       key: 1,
       size: textSizeList[ratioStatus][2],
       bold: false,
@@ -436,7 +442,7 @@ const App = () => {
                   x={textPosition[ratioStatus][0]}
                   y={textPosition[ratioStatus][1]}
                   width={width}
-                  text="제목을 입력하세요"
+                  text={mainTitle.text}
                   fontSize={mainTitle.size}
                   fill={mainTitle.color}
                   textDecoration={mainTitle.underline ? "underline" : "none"}
@@ -504,7 +510,7 @@ const App = () => {
                     x={textPosition[ratioStatus][2]}
                     y={textPosition[ratioStatus][3]}
                     width={width}
-                    text="부제목을 입력하세요"
+                    text={subTitle.text}
                     fontSize={subTitle.size}
                     fill={subTitle.color}
                     textDecoration={subTitle.underline ? "underline" : "none"}
@@ -540,7 +546,7 @@ const App = () => {
                     x={textPosition[ratioStatus][4]}
                     y={textPosition[ratioStatus][5]}
                     width={width}
-                    text="소제목을 입력하세요"
+                    text={smallTitle.text}
                     fontSize={smallTitle.size}
                     fill={smallTitle.color}
                     textDecoration={smallTitle.underline ? "underline" : "none"}
@@ -719,6 +725,48 @@ const App = () => {
                 <p className="ml-2 text-2xl font-semibold">텍스트</p>
               </div>
               <TextTypeSelector layout={layout} currentTitle={currentTitle} onClickTitleType={onClickTitleType} />
+              {/* Text inputs based on selected text type */}
+              <div className="mt-2 flex flex-col">
+                {currentTitle === "main" && (
+                  <input
+                    type="text"
+                    value={mainTitle.text}
+                    onChange={(e) => setMainTitle({ ...mainTitle, text: e.target.value })}
+                    onFocus={() => {
+                      if (mainTitle.text === "제목을 입력하세요") {
+                        setMainTitle({ ...mainTitle, text: "" });
+                      }
+                    }}
+                    className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-2 py-2 bg-white border border-[#D9D9D9] w-[17rem] h-11 rounded-lg text-left text-black font-light text-lg"
+                  />
+                )}
+                {currentTitle === "sub" && (
+                  <input
+                    type="text"
+                    value={subTitle.text}
+                    onChange={(e) => setSubTitle({ ...subTitle, text: e.target.value })}
+                    onFocus={() => {
+                      if (subTitle.text === "부제목을 입력하세요") {
+                        setSubTitle({ ...subTitle, text: "" });
+                      }
+                    }}
+                    className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-2 py-2 bg-white border border-[#D9D9D9] w-[17rem] h-11 rounded-lg text-left text-black font-light text-lg"
+                  />
+                )}
+                {currentTitle === "small" && (
+                  <input
+                    type="text"
+                    value={smallTitle.text}
+                    onChange={(e) => setSmallTitle({ ...smallTitle, text: e.target.value })}
+                    onFocus={() => {
+                      if (smallTitle.text === "소제목을 입력하세요") {
+                        setSmallTitle({ ...smallTitle, text: "" });
+                      }
+                    }}
+                    className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-2 py-2 bg-white border border-[#D9D9D9] w-[17rem] h-11 rounded-lg text-left text-black font-light text-lg"
+                  />
+                )}
+              </div>
               <div className="flex flex-row items-center mt-2">
                 <div
                   onClick={() => onClickTextDropdown()}
