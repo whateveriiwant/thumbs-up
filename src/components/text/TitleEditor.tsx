@@ -94,6 +94,7 @@ const TitleEditor: React.FC<TitleEditorProps> = ({
       <div className="mt-2 flex flex-col">
         <input
           type="text"
+          id="text"
           value={currentTitleState.text}
           onChange={(e) => {
             setCurrentTitleState({ text: e.target.value });

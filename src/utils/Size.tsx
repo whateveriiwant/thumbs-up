@@ -6,6 +6,7 @@ export const Size = (props: any) => {
       {/* 사이즈 입력 */}
       <p className="text-xl text-[#A9A9A9] font-light mr-2">사이즈</p>
       <input
+        id="width"
         type="text"
         alt="width"
         value={props.width}
@@ -14,6 +15,7 @@ export const Size = (props: any) => {
       />
       <p className="text-md text-[#D9D9D9] font-light mx-1">X</p>
       <input
+        id="height"
         type="text"
         alt="height"
         value={props.height}
