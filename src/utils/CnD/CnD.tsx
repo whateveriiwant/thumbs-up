@@ -22,5 +22,5 @@ export const CnD = (props: any) => {
         className="ml-2 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-black"
       />
     </div>
-  );
+  ); //.
 };
