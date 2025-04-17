@@ -372,7 +372,7 @@ const App = () => {
     setLinePosition(positionMappings.line[layout]);
 
     setMainTitle({
-      font: "Pretendard",
+      font: "Pretendard Variable",
       text: "제목을 입력하세요",
       key: 1,
       size: textSizeList[ratioStatus][0],
@@ -383,7 +383,7 @@ const App = () => {
     });
 
     setSubTitle({
-      font: "Pretendard",
+      font: "Pretendard Variable",
       text: "부제목을 입력하세요",
       key: 1,
       size: textSizeList[ratioStatus][1],
@@ -394,7 +394,7 @@ const App = () => {
     });
 
     setSmallTitle({
-      font: "Pretendard",
+      font: "Pretendard Variable",
       text: "소제목을 입력하세요",
       key: 1,
       size: textSizeList[ratioStatus][2],
@@ -727,45 +727,48 @@ const App = () => {
               <TextTypeSelector layout={layout} currentTitle={currentTitle} onClickTitleType={onClickTitleType} />
               {/* Text inputs based on selected text type */}
               <div className="mt-2 flex flex-col">
-                {currentTitle === "main" && (
-                  <input
-                    type="text"
-                    value={mainTitle.text}
-                    onChange={(e) => setMainTitle({ ...mainTitle, text: e.target.value })}
-                    onFocus={() => {
-                      if (mainTitle.text === "제목을 입력하세요") {
+                {/* Refactored text input component to reduce duplication */}
+                <input
+                  type="text"
+                  value={
+                    currentTitle === "main" ? mainTitle.text : currentTitle === "sub" ? subTitle.text : smallTitle.text
+                  }
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (currentTitle === "main") {
+                      setMainTitle({ ...mainTitle, text: value });
+                    } else if (currentTitle === "sub") {
+                      setSubTitle({ ...subTitle, text: value });
+                    } else {
+                      setSmallTitle({ ...smallTitle, text: value });
+                    }
+                  }}
+                  onFocus={() => {
+                    const placeholders = {
+                      main: "제목을 입력하세요",
+                      sub: "부제목을 입력하세요",
+                      small: "소제목을 입력하세요",
+                    };
+
+                    const currentText =
+                      currentTitle === "main"
+                        ? mainTitle.text
+                        : currentTitle === "sub"
+                        ? subTitle.text
+                        : smallTitle.text;
+
+                    if (currentText === placeholders[currentTitle]) {
+                      if (currentTitle === "main") {
                         setMainTitle({ ...mainTitle, text: "" });
-                      }
-                    }}
-                    className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-2 py-2 bg-white border border-[#D9D9D9] w-[17rem] h-11 rounded-lg text-left text-black font-light text-lg"
-                  />
-                )}
-                {currentTitle === "sub" && (
-                  <input
-                    type="text"
-                    value={subTitle.text}
-                    onChange={(e) => setSubTitle({ ...subTitle, text: e.target.value })}
-                    onFocus={() => {
-                      if (subTitle.text === "부제목을 입력하세요") {
+                      } else if (currentTitle === "sub") {
                         setSubTitle({ ...subTitle, text: "" });
-                      }
-                    }}
-                    className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-2 py-2 bg-white border border-[#D9D9D9] w-[17rem] h-11 rounded-lg text-left text-black font-light text-lg"
-                  />
-                )}
-                {currentTitle === "small" && (
-                  <input
-                    type="text"
-                    value={smallTitle.text}
-                    onChange={(e) => setSmallTitle({ ...smallTitle, text: e.target.value })}
-                    onFocus={() => {
-                      if (smallTitle.text === "소제목을 입력하세요") {
+                      } else {
                         setSmallTitle({ ...smallTitle, text: "" });
                       }
-                    }}
-                    className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-2 py-2 bg-white border border-[#D9D9D9] w-[17rem] h-11 rounded-lg text-left text-black font-light text-lg"
-                  />
-                )}
+                    }
+                  }}
+                  className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-2 py-2 bg-white border border-[#D9D9D9] w-[17rem] h-11 rounded-lg text-left text-black font-light text-lg"
+                />
               </div>
               <div className="flex flex-row items-center mt-2">
                 <div
