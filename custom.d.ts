@@ -1,6 +1,16 @@
 declare module "*.svg" {
-  import React = require("react");
-  export const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  const src: string;
-  export default src;
+  import * as React from "react";
+  const content: React.FC<React.SVGProps<SVGSVGElement>>;
+  export default content;
+}
+
+declare module "*.svg?react" {
+  import * as React from "react";
+  const content: React.FC<React.SVGProps<SVGSVGElement>>;
+  export default content;
+}
+
+declare module "*.svg?url" {
+  const content: string;
+  export default content;
 }

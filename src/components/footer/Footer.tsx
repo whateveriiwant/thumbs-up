@@ -1,6 +1,6 @@
-// import GithubFooter from "../../assets/footer/githubFooter.svg?react";
-// import LinkedInFooter from "../../assets/footer/linkedinFooter.svg?react";
-// import VelogFooter from "../../assets/footer/velogFooter.svg?react";
+import GithubFooter from "../../assets/footer/githubFooter.svg?react";
+import LinkedInFooter from "../../assets/footer/linkedinFooter.svg?react";
+import VelogFooter from "../../assets/footer/velogFooter.svg?react";
 
 const Footer = () => {
   return (
@@ -10,7 +10,7 @@ const Footer = () => {
         <p className="text-sm font-extralight text-[#C5C3C3]">Your Best Thumbnail Maker</p>
         <p className="text-md font-light text-[#C5C3C3]">Made by Seungjun Jeong With ❤️</p>
       </div>
-      {/* <div className="flex flex-row ml-3 justify-between items-center w-[7.5rem]">
+      <div className="flex flex-row ml-3 justify-between items-center w-[7.5rem]">
         <a href="https://github.com/whateveriiwant/thumbs-up" target="_blank" rel="noopener noreferrer">
           <GithubFooter
             fill="#C5C3C3"
@@ -35,7 +35,7 @@ const Footer = () => {
             className="transition-colors duration-200 ease-in-out hover:cursor-pointer hover:fill-[#20C997]"
           />
         </a>
-      </div> */}
+      </div>
     </div>
   );
 };

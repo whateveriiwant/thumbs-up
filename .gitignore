@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# 컴파일된 TypeScript 파일
+src/**/*.js
