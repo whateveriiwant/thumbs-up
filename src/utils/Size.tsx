@@ -9,6 +9,7 @@ export const Size = (props: any) => {
         type="text"
         alt="width"
         value={props.width}
+        readOnly
         className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-0.5 py-0.5 bg-white border border-[#D9D9D9] w-20 h-7 rounded-md text-center text-black font-light text-md"
       />
       <p className="text-md text-[#D9D9D9] font-light mx-1">X</p>
@@ -16,6 +17,7 @@ export const Size = (props: any) => {
         type="text"
         alt="height"
         value={props.height}
+        readOnly
         className="focus:outline-none focus:border-[#A9A9A9] transition-colors duration-200 px-0.5 py-0.5 bg-white border border-[#D9D9D9] w-20 h-7 rounded-md text-center text-black font-light text-md"
       />
       <Reset
