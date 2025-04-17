@@ -19,6 +19,8 @@ export default defineConfig(({ mode }) => {
           exportType: "default",
         },
         include: "**/*.svg",
+        // Ensure SVG files are properly processed
+        exclude: [],
       }),
     ],
     build: {
@@ -68,6 +70,11 @@ export default defineConfig(({ mode }) => {
       alias: {
         "@svg": "/src/assets",
       },
+    },
+    // Add explicit configuration for SVG handling
+    optimizeDeps: {
+      include: ["react", "react-dom"],
+      exclude: [],
     },
   };
 });
