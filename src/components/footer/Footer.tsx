@@ -1,4 +1,4 @@
-import GithubFooter from "../../assets/footer/githubFooter.svg?react";
+import GithubFooter from "../../assets/footer/githubfooter.svg?react";
 import LinkedInFooter from "../../assets/footer/linkedinFooter.svg?react";
 import VelogFooter from "../../assets/footer/velogFooter.svg?react";
 
