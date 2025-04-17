@@ -35,7 +35,6 @@ const BackgroundEditor: React.FC<BackgroundEditorProps> = ({
   setBgGradientStart,
   bgGradientEnd,
   setBgGradientEnd,
-  bgLink,
   setBgLink,
 }) => {
   const [bgView, setBgView] = useState(false);
