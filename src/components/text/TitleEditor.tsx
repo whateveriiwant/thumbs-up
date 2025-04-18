@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import Darrow from "../../assets/dArrow.svg?react";
 import Bold from "../../assets/Bold.svg?react";
 import Underline from "../../assets/underline.svg?react";
-import Palette from "../../assets/palette.svg?react";
+import Palette from "../../assets/Palette.svg?react";
 import TextIcon from "../../assets/text.svg?react";
 import TextDropdown from "./TextDropdown";
 import TextTypeSelector from "./TextTypeSelector";
