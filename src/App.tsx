@@ -35,6 +35,12 @@ const App = () => {
     disableRightClick();
   }, []);
 
+  // Add effect to initialize UI on first page load
+  useEffect(() => {
+    // Call the reset function when the page first loads
+    initializeUI();
+  }, []);
+
   /* 비율 로직 */
   type RatioKey = 1 | 2 | 3 | 4;
   const [ratioStatus, setRatioStatus] = useState<RatioKey>(() => {
@@ -205,7 +211,8 @@ const App = () => {
   // Add a key state to force re-renders
   const [resetKey, setResetKey] = useState(0);
 
-  const onClickReset = () => {
+  // Initialize UI function
+  const initializeUI = () => {
     const positionMappings = {
       text: {
         1: textPositionList1,
@@ -221,15 +228,35 @@ const App = () => {
       },
     };
 
-    // Set positions directly using the ratioStatus as a key
-    setTextPosition(positionMappings.text[layout]);
-    setLinePosition(positionMappings.line[layout]);
+    // Reset to default layout (1)
+    const defaultLayout = 1 as LayoutKey;
+    setLayout(defaultLayout);
+    localStorage.setItem(STORAGE_KEY_LAYOUT, defaultLayout.toString());
+
+    // Reset to default ratio (1)
+    const defaultRatio = 1 as RatioKey;
+    setRatioStatus(defaultRatio);
+    localStorage.setItem(STORAGE_KEY_RATIO, defaultRatio.toString());
+    setWidth(ratioList[defaultRatio][0]);
+    setHeight(ratioList[defaultRatio][1]);
+
+    // Reset background
+    setBg(1);
+    setIndex(0);
+    setBgColor("#256b74");
+    setBgGradientStart("#256b74");
+    setBgGradientEnd("#668fD6");
+    setBgLink("");
+
+    // Set positions directly using the default layout
+    setTextPosition(positionMappings.text[defaultLayout]);
+    setLinePosition(positionMappings.line[defaultLayout]);
 
     setMainTitle({
       font: "Pretendard Variable",
       text: "제목을 입력하세요",
       key: 1,
-      size: textSizeList[ratioStatus][0],
+      size: textSizeList[defaultRatio][0],
       bold: true,
       underline: false,
       align: "left",
@@ -240,7 +267,7 @@ const App = () => {
       font: "Pretendard Variable",
       text: "부제목을 입력하세요",
       key: 1,
-      size: textSizeList[ratioStatus][1],
+      size: textSizeList[defaultRatio][1],
       bold: false,
       underline: false,
       align: "left",
@@ -251,15 +278,23 @@ const App = () => {
       font: "Pretendard Variable",
       text: "소제목을 입력하세요",
       key: 1,
-      size: textSizeList[ratioStatus][2],
+      size: textSizeList[defaultRatio][2],
       bold: false,
       underline: false,
       align: "left",
       color: "#ffffff",
     });
 
+    // Set current title to main
+    setCurrentTitle("main");
+
     // Increment reset key to force re-render
     setResetKey((prev) => prev + 1);
+  };
+
+  const onClickReset = () => {
+    // Use the same initialization function for the reset button
+    initializeUI();
   };
 
   return (
