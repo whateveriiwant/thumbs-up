@@ -1,6 +1,6 @@
-import GithubFooter from "../../assets/footer/githubFooter.svg?react";
-import LinkedInFooter from "../../assets/footer/linkedinFooter.svg?react";
-import VelogFooter from "../../assets/footer/velogFooter.svg?react";
+import GithubFooter from "../../assets/Footer/githubFooter.svg?react";
+import LinkedInFooter from "../../assets/Footer/linkedinFooter.svg?react";
+import VelogFooter from "../../assets/Footer/velogFooter.svg?react";
 
 const Footer = () => {
   return (
